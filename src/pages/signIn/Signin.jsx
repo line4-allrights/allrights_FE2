@@ -26,6 +26,17 @@ const SignInContainer = styled.div`
     margin-top: 6vw;
 `;
 
+const SignupButton = styled.button`
+    width: 11.7vw;
+    height: 2.2vw;
+    border: 0.15vw solid ${colors.mainBlue};
+    background-color: transparent;
+    border-radius: 1.2vw;
+    color: ${colors.mainBlue};
+    font-weight: 600;
+    font-size: 0.8vw;
+`
+
 const Signin = () => {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
@@ -52,6 +63,10 @@ const Signin = () => {
         }
     }
 
+    const handleSignup = () => {
+        window.location.href = "/signup";
+    };
+
     return (
         <SignIn>
             <SignInP>로그인</SignInP>
@@ -60,7 +75,7 @@ const Signin = () => {
                 <InputSign type="password" placeholder="비밀번호를 입력해주세요." onChange={(e) => setPassword(e.target.value)} />
 
                 <SignButton buttonText="로그인" style={{ width: "11.7vw", marginTop: "3.4vw" }} disabled={!isFill} onClick={handleSubmit}/>
-                <SignButton buttonText="회원가입" linkTo="/signup" style={{ width: "11.7vw", backgroundColor: "transparent", border: `0.15vw solid ${colors.mainBlue}`, color: colors.mainBlue }} />
+                <SignupButton onClick={handleSignup}>회원가입</SignupButton>
                 {/* <div style={{color: colors.white}}>{responseMessage}</div> */}
             </SignInContainer>
         </SignIn>
