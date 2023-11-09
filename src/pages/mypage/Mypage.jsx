@@ -59,19 +59,23 @@ const MyPage = () => {
     const [showPost, setShowPost] = useState(true);
     const [postData, setPostData] = useState([]);
     const [saveData, setSaveData] = useState([]);
+    const [userInfo, setUserInfo] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await API.get("http://127.0.0.1:8000/account/mypage/<int:user_id>/");
+                const response = await API.get(`http://127.0.0.1:8000/account/mypage/${parseInt(userInfo?.userid, 10)}/`);
                 setPostData(response.data.post);
                 setSaveData(response.data.save);
+                setUserInfo(response.data.user_info);
             } catch (error) {
                 console.error("Error: ", error);
             }
         };
-        fetchData();
-    }, []);
+        if (userInfo) { 
+            fetchData();
+        }
+    }, [userInfo]);
 
     return (
         <MyPageContainer>
