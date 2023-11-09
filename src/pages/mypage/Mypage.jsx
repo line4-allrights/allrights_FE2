@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import colors from "../../styles/colors";
-import profilePhoto from "../../assets/images/profilePhoto.png";
 import MyPageButton from "../../components/button/button-main";
 import ListPost from "../../components/list/list-post";
 import ListSave from "../../components/list/list-save";
+import ListMyPage from "../../components/list/list-mypage";
 import { API } from "../../api/axios";
+import MyPageData from "../../util/mypage";
 
 const MyPageContainer = styled.div`
     width: 100%;
@@ -18,12 +19,6 @@ const MypageBanner = styled.div`
     background: linear-gradient(180deg, #16162a 0%, #316ac5 100%);
     width: 100%;
     height: 18vw;
-`;
-
-const MyPageP = styled.p`
-    font-weight: 700;
-    font-size: 1.75vw;
-    color: ${colors.white};
 `;
 
 const MyPageP2 = styled.p`
@@ -59,7 +54,7 @@ const MyPage = () => {
     const [showPost, setShowPost] = useState(true);
     const [postData, setPostData] = useState([]);
     const [saveData, setSaveData] = useState([]);
-    const [userInfo, setUserInfo] = useState(null);
+    const [userInfo, setUserInfo] = useState(MyPageData);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,38 +66,22 @@ const MyPage = () => {
                     setUserInfo(response.data.user_info);
                 }
             } catch (error) {
-                console.error("데이터를 가져오는 중 오류 발생: ", error);
+                console.error("error", error);
             }
         };
         fetchData();
     }, [userInfo]);
+
+    useEffect(() => {
+        setUserInfo(MyPageData);
+    }, []);
 
     return (
         <MyPageContainer>
             <MypageBanner/>
             
             {/* 유저 정보 */}
-            <div style={{ width: "70%", display: "flex", alignItems: "center", marginTop: "-4vw" }}>
-                <div className="left" style={{ width: "20%", textAlign: "center" }}>
-                    <img src={profilePhoto} alt="profilePhoto" style={{ width: "10vw", height: "10vw" }}/>
-                    <br />
-                    <MyPageButton
-                        buttonText="수정하기"
-                        style={{
-                            marginTop: "1.2vw",
-                            backgroundColor: "transparent",
-                            border: `0.1vw solid ${colors.mainBlue}`,
-                        }}
-                    />
-                </div>
-                <div
-                    className="right"
-                    style={{ display: "flex", flexDirection: "column", gap: "0.4vw" }}
-                >
-                    <MyPageP>닉네임</MyPageP>
-                    <MyPageP style={{ fontWeight: 500, fontSize: "1vw" }}>아이디</MyPageP>
-                </div>
-            </div>
+            <ListMyPage data={userInfo} />
 
             {/* nav */}
             <div
