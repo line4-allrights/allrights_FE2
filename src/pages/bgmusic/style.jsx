@@ -265,7 +265,7 @@ export const SubscribeButton = styled.button`
 
 export const BgMusicBox = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   margin-top: 120px;
   justify-content: space-between;
   margin-bottom: 30px;
@@ -295,6 +295,17 @@ export const BgSubTitle = styled.div`
   }
 `;
 
+export const DropdownMenu = styled.div`
+  height: 2.2vw;
+  width: 17.53vw;
+  border-radius: 36px;
+  border: 2px solid #bfc5d0;
+  background: #16162a;
+  color: #e4e8ef;
+  padding: 0.3vw;
+  font-size: 0.9vw;
+`;
+
 export const PhoneMargin = styled.div`
   display: flex;
   margin-top: 6vw;
@@ -313,4 +324,20 @@ export const CategoryText = styled.span`
   &:hover {
     color: #4e535d;
   }
+`;
+
+export const StyledSelect = styled.select`
+  /* height: 2.2vw;
+  width: 17.53vw;
+  border-radius: 36px;
+  border: 2px solid #bfc5d0;
+  background: #16162a; */
+  /* color: #e4e8ef; */
+  /* padding: 0.3vw;
+  font-size: 0.9vw; */
+`;
+
+export const StyledOption = styled.option`
+  background-color: white;
+  padding: 1vw;
 `;

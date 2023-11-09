@@ -11,19 +11,17 @@ import ItemPhone from "../../components/listItem/item-phone";
 import BgMusicImg from "../../assets/images/BgMusicImg.png";
 
 const BgMusic = () => {
-  // 검색어를 저장하는 상태
   const [searchTerm, setSearchTerm] = useState("");
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState(""); // 추가: 활성 메뉴를 추적
+  const [activeMenu, setActiveMenu] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [sort, setSort] = useState("");
 
-  // 검색어 입력 시 호출
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // 검색 버튼을 눌렀을 때 호출
   const handleSearch = () => {
-    // 검색 로직을 이곳에 추가
     console.log("검색어:", searchTerm);
   };
 
@@ -31,33 +29,37 @@ const BgMusic = () => {
     console.log("버튼이 클릭되었습니다.");
   };
 
-  // 사이드바 열기
   const openSideBar = (menuName) => {
     setIsSideBarOpen(true);
     setActiveMenu(menuName);
     console.log("사이드바가 열렸습니다.");
   };
 
-  // 사이드바 닫기
   const closeSideBar = () => {
     setIsSideBarOpen(false);
     setActiveMenu("");
     console.log("사이드바가 닫혔습니다.");
   };
 
-  // 외부 클릭 시 사이드바 닫기
   const handleOutsideClick = (e) => {
     if (isSideBarOpen && !e.target.closest("#sideBar")) {
       closeSideBar();
     }
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
+
+  const SortList = [
+    { value: "upload_date", name: "최신순" },
+    { value: "downloads", name: "다운로드순" },
+  ];
+
   useEffect(() => {
-    // 외부 클릭 이벤트 리스너 등록
     document.addEventListener("click", handleOutsideClick);
 
     return () => {
-      // 컴포넌트 언마운트 시 이벤트 리스너 제거
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [isSideBarOpen]);
@@ -225,7 +227,6 @@ const BgMusic = () => {
         </S.SideBarWrapper>
       </S.BgMenuContainer>
 
-      {/* 메인 부분 */}
       <S.BgBox>
         <S.BgTop>
           <S.BgMention>
@@ -244,28 +245,37 @@ const BgMusic = () => {
           </S.BgMention>
           <S.BgImg img src={BgMusicImg} alt="Background Music" />
         </S.BgTop>
-        {/* 배경음악 부분 */}
+
         <S.BgMusicBox>
-          <S.BgTitle>배경음악</S.BgTitle>
           <S.BgSubTitle>
-            정렬
-            <FontAwesomeIcon icon={faChevronDown} />
+            <S.BgTitle>배경음악</S.BgTitle>
+            <S.StyledSelect
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <option value="" disabled hidden>
+                정렬
+              </option>
+              {SortList.map((item) => (
+                <option value={item.value} key={item.value}>
+                  {item.name}
+                </option>
+              ))}
+            </S.StyledSelect>
           </S.BgSubTitle>
+
+          <Musiclist />
+          <Musiclist />
+          <Musiclist />
+          <Musiclist />
+          <Musiclist />
+
+          <PaginationIcon />
+
+          <S.PhoneMargin>
+            <ItemPhone />
+          </S.PhoneMargin>
         </S.BgMusicBox>
-
-        {/* 데이터로 수정 */}
-        <Musiclist />
-        <Musiclist />
-        <Musiclist />
-        <Musiclist />
-        <Musiclist />
-
-        <PaginationIcon />
-
-        {/* 이렇게 사용해보세요 */}
-        <S.PhoneMargin>
-          <ItemPhone />
-        </S.PhoneMargin>
       </S.BgBox>
     </>
   );
