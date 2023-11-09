@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import colors from "../../styles/colors";
 import axios from "axios";
@@ -41,6 +41,15 @@ const SignupButton = styled.button`
 const Signin = () => {
     const [id, setId] = useState("");
     const [password, setPassword] = useState("");
+    const [userNickname, setUserNickname]=useState("");
+
+    useEffect(() => {
+        // localStorage에서 닉네임 가져오기
+        const storedNickname = localStorage.getItem("userNickname");
+        if (storedNickname) {
+          setUserNickname(storedNickname);
+        }
+      }, []);
     // const [responseMessage, setResponseMessage] = useState("");
 
     const isFill = id !== "" && password !== "";
@@ -62,6 +71,7 @@ const Signin = () => {
                 // setResponseMessage("로그인 실패");
             });
         }
+        
     }
 
     const handleSignup = () => {
