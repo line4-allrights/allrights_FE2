@@ -64,17 +64,17 @@ const MyPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await API.get(`http://127.0.0.1:8000/account/mypage/${parseInt(userInfo?.userid, 10)}/`);
-                setPostData(response.data.post);
-                setSaveData(response.data.save);
-                setUserInfo(response.data.user_info);
+                if (userInfo) { 
+                    const response = await API.get(`http://127.0.0.1:8000/account/mypage/${parseInt(userInfo?.userid, 10)}/`);
+                    setPostData(response.data.post);
+                    setSaveData(response.data.save);
+                    setUserInfo(response.data.user_info);
+                }
             } catch (error) {
-                console.error("Error: ", error);
+                console.error("데이터를 가져오는 중 오류 발생: ", error);
             }
         };
-        if (userInfo) { 
-            fetchData();
-        }
+        fetchData();
     }, [userInfo]);
 
     return (
