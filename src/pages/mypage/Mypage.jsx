@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import colors from "../../styles/colors";
-import profilePhoto from "../../assets/images/profilePhoto.png";
 import MyPageButton from "../../components/button/button-main";
 import ListPost from "../../components/list/list-post";
 import ListSave from "../../components/list/list-save";
+import ListMyPage from "../../components/list/list-mypage";
 import { API } from "../../api/axios";
+import MyPageData from "../../util/mypage";
 
 const MyPageContainer = styled.div`
   width: 100%;
@@ -59,23 +60,28 @@ const MyPage = () => {
   const [showPost, setShowPost] = useState(true);
   const [postData, setPostData] = useState([]);
   const [saveData, setSaveData] = useState([]);
-  const [userInfo, setUserInfo] = useState(null);
+  const [userInfo, setUserInfo] = useState(MyPageData);
 
-  const fetchData = async () => {
-    try {
-      const response = await API.get(
-        `http://127.0.0.1:8000/account/mypage/{user_id}/`
-      );
-      setPostData(response.data.post);
-      setSaveData(response.data.save);
-      setUserInfo(response.data.user_info);
-    } catch (error) {
-      console.error("데이터를 가져오는 중 오류 발생: ", error);
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (userInfo) {
+          const response = await API.get(
+            `http://127.0.0.1:8000/account/mypage/${parseInt(
+              userInfo?.userid,
+              10
+            )}/`
+          );
+          setPostData(response.data.post);
+          setSaveData(response.data.save);
+          setUserInfo(response.data.user_info);
+        }
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류 발생: ", error);
+      }
+    };
     fetchData();
-  }, []);
+  }, [userInfo]);
 
   return (
     <MyPageContainer>
