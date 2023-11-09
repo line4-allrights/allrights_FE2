@@ -65,8 +65,7 @@ export const SideBarContent = styled.div`
   justify-content: center;
   align-items: center;
   /* z-index: 9999; */
-
-  border: 1px solid yellow;
+  /* border: 1px solid yellow; */
 `;
 
 export const BgMenubar = styled.div`
@@ -81,6 +80,14 @@ export const BgMenubar = styled.div`
 `;
 
 // 추가: 사이드바가 열릴 때 나타날 박스 스타일
+export const Category = styled.div`
+  /* border: 1px solid yellow; */
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ExpandedBox = styled.div`
   width: 100%; // 화면 너비의 67vw로 설정
   height: 31vw;
@@ -88,9 +95,73 @@ export const ExpandedBox = styled.div`
   position: absolute;
   top: 100%; /* SideBarWrapper 아래에 위치 */
   right: 0;
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   z-index: 99999;
+  justify-content: center;
   /* border: 1px solid lightgreen; */
+`;
+
+export const ExContainer = styled.div`
+  /* border: 1px solid red; */
+  width: 68vw;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* align-items: center; */
+  margin-top: 2vw;
+`;
+
+export const Genre = styled.div`
+  /* border: 1px solid red; */
+  color: #9da5b3;
+  text-align: center;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 300%;
+  letter-spacing: -0.8px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const Mood = styled.div`
+  /* border: 1px solid red; */
+  color: #9da5b3;
+  text-align: center;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 300%;
+  letter-spacing: -0.8px;
+  margin-left: 0.7vw;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const Instrument = styled.div`
+  /* border: 1px solid red; */
+  color: #9da5b3;
+  text-align: center;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 300%;
+  letter-spacing: -0.8px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+export const Length = styled.div`
+  /* border: 1px solid red; */
+  color: #9da5b3;
+  text-align: center;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 300%;
+  letter-spacing: -0.8px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export const BgMenu = styled.div`
@@ -227,4 +298,19 @@ export const BgSubTitle = styled.div`
 export const PhoneMargin = styled.div`
   display: flex;
   margin-top: 6vw;
+`;
+
+export const CategoryText = styled.span`
+  color: #9da5b3;
+  text-align: center;
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 300%;
+  letter-spacing: -0.8px;
+  transition: color 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    color: #4e535d;
+  }
 `;
