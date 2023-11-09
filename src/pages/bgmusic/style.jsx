@@ -289,7 +289,7 @@ export const BgSubTitle = styled.div`
   line-height: 150%;
   letter-spacing: -0.8px;
   align-items: flex-end;
-  margin-bottom: 3px;
+  margin-bottom: 2vw;
   justify-content: space-between;
   svg {
     margin-bottom: 5px;

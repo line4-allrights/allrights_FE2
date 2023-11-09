@@ -27,14 +27,15 @@ export const MusicSource = styled.div`
   }
 `;
 
-export const AlbumCover = styled.div`
-  display: flex;
-  border-radius: 9px;
-  background: #727782;
-  width: 3.5vw;
-  height: 3.5vw;
-  margin-right: 1rem;
-`;
+// export const AlbumCover = styled.div`
+//   display: flex;
+//   border-radius: 9px;
+//   background: #727782;
+//   background-image: url(${(props) => props.imageUrl});
+//   width: 3.5vw;
+//   height: 3.5vw;
+//   margin-right: 1rem;
+// `;
 
 export const MusicInfo = styled.div`
   display: flex;
@@ -70,7 +71,6 @@ export const DownloadBtn = styled.div`
   flex-direction: row;
   min-width: 6vw;
   height: 3vw;
-  padding: 0.5vw 1.2vw;
   border-radius: 1.8vw;
   justify-content: center;
   align-items: center;

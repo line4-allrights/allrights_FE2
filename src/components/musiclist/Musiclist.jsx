@@ -1,23 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as S from "./style";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import Waveform from "../waveform/Wavefrom";
 import AudioWaveform from "../waveform/Wavefrom";
+import { API } from "../../api/axios";
+
+const AlbumCover = styled.div`
+  display: flex;
+  border-radius: 9px;
+  background: #727782;
+  background-image: url(${(props) => props.imageUrl});
+  width: 3.5vw;
+  height: 3.5vw;
+  margin-right: 1rem;
+`;
 
 const Musiclist = () => {
-  // 스크랩 저장 정보 상태를 관리하는 변수
   const [isSaved, setIsSaved] = useState(false);
+  const [musicData, setMusicData] = useState([]);
 
-  // 하트 아이콘의 색을 동적으로 설정하는 함수
-  const getHeartColor = () => (isSaved ? "#4A88FF" : "#727782");
+  useEffect(() => {
+    const fetchMusicData = async () => {
+      try {
+        const response = await API.get("http://127.0.0.1:8000/music/");
+        setMusicData(response.data);
+      } catch (error) {
+        console.error("음악 데이터를 가져오는 중 에러 발생:", error);
+      }
+    };
 
-  // 하트 아이콘을 클릭했을 때 저장 정보를 토글하는 함수
-  const handleHeartClick = () => {
-    setIsSaved(!isSaved);
+    fetchMusicData();
+  }, []);
+
+  if (!musicData || musicData.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const {
+    id,
+    username,
+    title,
+    music_file,
+    music_type,
+    genre,
+    instruments,
+    mood,
+    length,
+    description,
+    upload_date,
+    downloads,
+    music_image,
+    author,
+    liker,
+  } = musicData[0]; // Assuming you want the first music, change the index accordingly
+
+  const toggleLike = async (musicId) => {
+    try {
+      const response = await API.post(
+        `http://127.0.0.1:8000/music/like/${musicId}/`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("좋아요 실패다 ㅋ", error);
+      throw error;
+    }
   };
 
-  //음원 다운로드 버튼
+  const getHeartColor = () => (isSaved ? "#4A88FF" : "#727782");
+
+  const handleHeartClick = async () => {
+    if (!musicData) {
+      console.error("음악 데이터가 없습니다.");
+      return;
+    }
+
+    try {
+      await toggleLike(music_id);
+      setIsSaved(!isSaved);
+    } catch (error) {
+      console.error("스크랩 실패", error);
+    }
+  };
+
   const handleButtonClick = () => {
     console.log("음원이 다운로드 되었습니다.");
   };
@@ -29,12 +95,12 @@ const Musiclist = () => {
           <FontAwesomeIcon
             icon={faHeart}
             onClick={handleHeartClick}
-            style={{ color: getHeartColor() }} // 하트 아이콘의 색을 동적으로 설정
+            style={{ color: getHeartColor() }}
           />
-          <S.AlbumCover />
+          <AlbumCover imageUrl={music_image} />
           <S.MusicInfo>
-            <S.MusicTitle>4호선톤 파이팅</S.MusicTitle>
-            <S.MusicOwner>아프지마 도토 잠보</S.MusicOwner>
+            <S.MusicTitle>{title}</S.MusicTitle>
+            <S.MusicOwner>{username}</S.MusicOwner>
           </S.MusicInfo>
           <AudioWaveform />
           <S.DownloadBtn onClick={handleButtonClick}>다운로드</S.DownloadBtn>
