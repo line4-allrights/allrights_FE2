@@ -3,7 +3,6 @@ import styled from "styled-components";
 import colors from "../../styles/colors";
 import WaveSurfer from "wavesurfer.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { faPause } from "@fortawesome/free-solid-svg-icons";
 
@@ -39,16 +38,30 @@ const SaveP = styled.p`
     color: ${colors.HomeExp};
 `;
 
+const DeleteButton = styled.button`
+    width: 3.8vw;
+    height: 2.2vw;
+    border: 0.15vw solid ${colors.mainBlue};
+    background-color: transparent;
+    border-radius: 1.8vw;
+    color: ${colors.white};
+    font-weight: 600;
+    font-size: 0.8vw;
+`
+
 const ItemSave = (props) => {
-    const { id, name, producer, img, time, song } = props;
+    const { id, title, username, music_img, song } = props;
     const waveformRef = useRef(null);
     const wavesurferRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isSaved, setIsSaved] = useState(false);
-    const getHeartColor = () => (isSaved ? "#4A88FF" : "#727782");
 
-    const handleHeartClick = () => {
-        setIsSaved(!isSaved);
+    const handleDelete = () => {
+        const isConfirmed = window.confirm("영구 삭제 하시겠습니까?");
+        if (isConfirmed) {
+            alert("삭제 되었습니다.");
+        } else {
+
+        }
     };
 
     const handlePlayPause = () => {
@@ -96,22 +109,17 @@ const ItemSave = (props) => {
                     }}
                 />
             </Button>
-            <img src={img} alt="img" style={{ width: "3.2vw", height: "3.2vw", border: "none", borderRadius: "0.8vw" }} />
-            <div>
-                <SaveP>{name}</SaveP>
-                <SaveP style={{ fontSize: "0.8vw", fontWeight: 500 }}>{producer}</SaveP>
+            <img src={music_img} alt="img" style={{ width: "3.2vw", height: "3.2vw", border: "none", borderRadius: "0.8vw" }} />
+            <div style={{width: "20%"}}>
+                <SaveP>{title}</SaveP>
+                <SaveP style={{ fontSize: "0.8vw", fontWeight: 500 }}>{username}</SaveP>
             </div>
             <WaveBox>
                 <AudioWaveformContainer>
                     <div ref={waveformRef}></div>
                 </AudioWaveformContainer>
             </WaveBox>
-            <SaveP style={{ fontSize: "0.8vw", fontWeight: 400 }}>{time}</SaveP>
-            <FontAwesomeIcon
-            icon={faHeart}
-            onClick={handleHeartClick}
-            style={{ color: getHeartColor(), cursor: "pointer" }}
-            />
+            <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
         </StyleItem>
     );
 };

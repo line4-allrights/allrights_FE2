@@ -4,9 +4,8 @@ import colors from "../../styles/colors";
 import profilePhoto from "../../assets/images/profilePhoto.png";
 import MyPageButton from "../../components/button/button-main";
 import ListPost from "../../components/list/list-post";
-import PostData from "../../util/post";
 import ListSave from "../../components/list/list-save";
-import SaveData from "../../util/save";
+import API from "../../api/axios";
 
 const MyPageContainer = styled.div`
     width: 100%;
@@ -58,15 +57,20 @@ const Bar = styled.div`
 
 const MyPage = () => {
     const [showPost, setShowPost] = useState(true);
-    const [postData, setPostData] = useState(PostData);
-    const [saveData, setSaveData] = useState(SaveData);
+    const [postData, setPostData] = useState([]);
+    const [saveData, setSaveData] = useState([]);
 
     useEffect(() => {
-        setPostData(PostData);
-    }, []);
-
-    useEffect(() => {
-        setSaveData(SaveData);
+        const fetchData = async () => {
+            try {
+                const response = await API.get("http://127.0.0.1:8000/account/mypage/<int:user_id>/");
+                setPostData(response.data.post);
+                setSaveData(response.data.save);
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+        };
+        fetchData();
     }, []);
 
     return (

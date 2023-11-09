@@ -50,7 +50,7 @@ const DeleteButton = styled.button`
 `
 
 const ItemPost = (props) => {
-    const { id, name, producer, img, time, song } = props;
+    const { id, title, username, music_img, song } = props;
     const waveformRef = useRef(null);
     const wavesurferRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -109,17 +109,16 @@ const ItemPost = (props) => {
                     }}
                 />
             </Button>
-            <img src={img} alt="img" style={{ width: "3.2vw", height: "3.2vw", border: "none", borderRadius: "0.8vw" }} />
-            <div>
-                <PostP>{name}</PostP>
-                <PostP style={{ fontSize: "0.8vw", fontWeight: 500 }}>{producer}</PostP>
+            <img src={music_img} alt="img" style={{ width: "3.2vw", height: "3.2vw", border: "none", borderRadius: "0.8vw" }} />
+            <div style={{width: "20%"}}>
+                <PostP>{title}</PostP>
+                <PostP style={{ fontSize: "0.8vw", fontWeight: 500 }}>{username}</PostP>
             </div>
             <WaveBox>
                 <AudioWaveformContainer>
                     <div ref={waveformRef}></div>
                 </AudioWaveformContainer>
             </WaveBox>
-            <PostP style={{ fontSize: "0.8vw", fontWeight: 400 }}>{time}</PostP>
             <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
         </StyleItem>
     );

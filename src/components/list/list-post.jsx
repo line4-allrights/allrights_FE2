@@ -9,11 +9,10 @@ const ListPost = ({data}) => {
                     <ItemPost
                         key = {index}
                         id = {item.id}
-                        name = {item.name}
-                        producer = {item.producer}
+                        title = {item.title}
+                        username = {item.username}
                         song = {item.song}
-                        time={item.time}
-                        img={item.image}
+                        music_img={item.music_img}
                     />
                 )
             })}
