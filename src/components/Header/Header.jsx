@@ -42,15 +42,11 @@ const Header = () => {
   const [userNickname, setUserNickname] = useState("");
 
   useEffect(() => {
-    // 로컬 스토리지에서 토큰 가져오기
-    const token = localStorage.getItem('token');
-    
-    // 토큰이 있다면, 사용자가 로그인한 것으로 간주
-    if (token) {
+    // localStorage에서 닉네임 가져오기
+    const storedNickname = localStorage.getItem("userNickname");
+    if (storedNickname) {
       setIsLoggedIn(true);
-      // 서버나 다른 곳에서 사용자 정보를 가져올 수 있습니다.
-      // 예시를 위해 하드코딩된 값을 사용하겠습니다.
-      setUserNickname("User123"); // 사용자 정보를 가져와서 설정해야 합니다.
+      setUserNickname(storedNickname);
     }
   }, []);
   
