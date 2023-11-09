@@ -18,8 +18,8 @@ export const FooterLeft = styled.div`
 `;
 
 export const FooterMainLogo = styled.img`
-  margin-top: 1.8vw;
-  width: 6vw;
+  margin-top: 1vw;
+  width: 5vw;
 `;
 
 export const FooterCopyRight = styled.p`
@@ -32,7 +32,7 @@ export const FooterLogo = styled.div`
   display: flex;
   align-items: center;
   gap: 1vw;
-  margin: 0.5vw 0 1.5vw 0;
+  margin: 0.5vw 0 1vw 0;
   padding-left: 0.1vw;
 `;
 
