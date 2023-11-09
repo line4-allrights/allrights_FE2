@@ -43,21 +43,26 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (isFill) {
-            try {
-                const response = axios.post("/account/signup", {
-                    username: name,
-                    userid: id,
-                    password: password
-                });
-                console.log(response.data);
-                // setResponseMessage("회원가입 성공");
-                window.location.href = "/signin";
-            } catch (error) {
-                console.error("error: ", error);
-                // setResponseMessage("회원가입 실패");
-            }
+          try {
+            const response = await axios.post("/account/signup", {
+              username: name,
+              userid: id,
+              password: password,
+            });
+            console.log(response.data);
+      
+            // 회원가입 성공 시 localStorage에 닉네임 저장
+            localStorage.setItem("userNickname", name);
+      
+            
+            window.location.href = "/signin";
+          } catch (error) {
+            console.error("error: ", error);
+            // setResponseMessage("회원가입 실패");
+          }
         }
-    };
+      };
+      
 
     return (
         <SignUp>
