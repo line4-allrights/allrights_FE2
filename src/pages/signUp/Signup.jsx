@@ -10,6 +10,7 @@ const SignUp = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-top: -2vw;
 `;
 
 const SignUpP = styled.div`
@@ -22,7 +23,7 @@ const SignUpContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 4vw;
+    margin-top: 3vw;
 `;
 
 const InputContainer = styled.div`
@@ -76,7 +77,7 @@ const Signup = () => {
                         <InputSign type="password" placeholder="비밀번호를 입력해주세요." onChange={(e) => setPassword(e.target.value)} />
                     </InputContainer>
                 </div>
-                <SignButton buttonText="회원가입" style={{ width: "11.7vw", marginTop: "3.2vw" }} disabled={!isFill} onClick={handleSubmit}/>
+                <SignButton buttonText="회원가입" style={{ width: "11.7vw", margin: "3vw 0 1vw 0" }} disabled={!isFill} onClick={handleSubmit}/>
                 {/* <div style={{color: colors.white}}>{responseMessage}</div> */}
             </SignUpContainer>
         </SignUp>
