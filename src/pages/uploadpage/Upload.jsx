@@ -115,36 +115,62 @@ const SelectedButton = styled(SearchButton)`
 `;
 
 const StyledSelect = styled.select`
-  width: 17.53vw;
   height: 2.2vw;
-  padding: 1vw;
+  width: 17.53vw;
   border-radius: 36px;
   border: 2px solid #bfc5d0;
-  outline: none;
-  background-color: ${color.mainDarkBlue};
-  color: #FFFFFF; 
+  background: #16162a;
+  color: #e4e8ef;
+  padding: 0.3vw;
   font-size: 0.9vw;
-
 `;
 
 const StyledOption = styled.option`
-  background-color: #f8f8f8;
-  color: #e4e8ef;
-  padding: 5px; 
+  background-color: ${color.white};
+  padding: 1vw;
 `;
 
-
-
 const Upload = () => {
-  const [selectedButton, setSelectedButton] = useState(null);
-  const [selectedFile, setSelectedFile] = useState("");
-  const [title, setTitle] = useState("");
-  const [genre, setGenre] = useState("");
-  const [instrument, setInstrument] = useState("");
-  const [mood, setMood] = useState("");
-  const [length, setLength] = useState("");
-  const [description, setDescription] = useState("");
   const fileInputRef = useRef(null);
+  const [selectedButton, setSelectedButton] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const GenreList = [
+    { value: "hiphop", name: "힙합" },
+    { value: "blues", name: "블루스" },
+    { value: "classic", name: "클래식" },
+    { value: "folk", name: "포크" },
+    { value: "pop", name: "팝" },
+    { value: "jazz", name: "재즈" },
+    { value: "indie", name: "인디" },
+    { value: "r&b", name: "R&B" },
+    { value: "rock", name: "락" },
+  ];
+
+  const InstrumentList = [
+    { value: "acoustic", name: "어쿠스틱 기타" },
+    { value: "base", name: "베이스" },
+    { value: "drum", name: "드럼" },
+    { value: "violin", name: "바이올린" },
+    { value: "piano", name: "피아노" },
+    { value: "etc", name: "etc" },
+  ];
+
+  const MoodList = [
+    { value: "sad", name: "우울한" },
+    { value: "exciting", name: "신나는" },
+    { value: "cheerful", name: "쾌활한" },
+    { value: "peaceful", name: "평화로운" },
+    { value: "serious", name: "심각한" },
+    { value: "urgent", name: "급박한" },
+    { value: "joyful", name: "즐거운" },
+    { value: "funny", name: "웃긴" },
+  ];
+
+  const LengthList = [
+    { value: "short", name: "1분 이내" },
+    { value: "medium", name: "1-5분" },
+    { value: "long", name: "5분이상" },
+  ];
 
   const handleButtonClick = (buttonType) => {
     setSelectedButton(buttonType);
@@ -153,7 +179,7 @@ const Upload = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setSelectedFile(file.name);
+      setSelectedFile(file);
     }
   };
 
@@ -161,62 +187,73 @@ const Upload = () => {
     fileInputRef.current.click();
   };
 
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    selectedFile: null,
+    selectedButton: null,
+    genre: "",
+    instrument: "",
+    mood: "",
+    length: "",
+  });
+
   const handleSubmit = async () => {
-    console.log("FormData Values:", formData);
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-    if (isFormValid()) {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("genre", genre);
-      formData.append("instrument", instrument);
-      formData.append("mood", mood);
-      formData.append("length", length);
-      formData.append("description", description);
-      formData.append("type", selectedButton);
-
-      if (selectedFile) {
-        formData.append("file", selectedFile);
-      }
-
-      try {
-        {
-          /*post 요청*/
-        }
-        const response = await fetch("/music/upload/", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (response.ok) {
-          const jsonResponse = await response.json();
-          console.log("업로드 성공:", jsonResponse);
-        } else {
-          const errorResponse = await response.json();
-          console.error("업로드 실패:", errorResponse);
-          alert(`에러: ${errorResponse.message}`);
-        }
-      } catch (error) {
-        console.error("업로드 중 문제 발생:", error);
-        alert("업로드 중 문제가 발생했습니다. 나중에 다시 시도해주세요.");
-      }
-    } else {
+    if (!isFormValid()) {
       alert("모든 칸을 입력해주세요.");
+      return;
     }
-  };
 
-  const isFormValid = () => {
-    return (
-      title.trim() !== "" &&
-      selectedFile.trim() !== "" &&
-      genre.trim() !== "" &&
-      instrument.trim() !== "" &&
-      mood.trim() !== "" &&
-      length.trim() !== "" &&
-      description.trim() !== "" &&
-      selectedButton != null
-    );
+    const allValues = [
+      formData.title,
+      formData.description,
+      formData.selectedButton,
+      ...formData.tags,
+      JSON.stringify({
+        genre: formData.genre,
+        instrument: formData.instrument,
+        mood: formData.mood,
+        length: formData.length,
+      }),
+    ];
+
+    console.log("Form Data:", allValues);
+    if (formData.tags && formData.tags.length > 0) {
+      console.log("Tags:");
+      formData.tags.forEach((tag, index) => {
+        console.log(`Tag ${index + 1}:`, tag);
+      });
+    }
+
+    const uploadFormData = new FormData();
+    uploadFormData.append("title", formData.title);
+    uploadFormData.append("description", formData.description);
+    uploadFormData.append("type", formData.selectedButton);
+
+    const selections = {
+      genre: formData.genre,
+      instrument: formData.instrument,
+      mood: formData.mood,
+      length: formData.length,
+    };
+
+    uploadFormData.append("selections", JSON.stringify(selections));
+
+    try {
+      const response = await fetch("/music/upload/", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      if (response.ok) {
+        // 성공 처리
+      } else {
+        // 실패 처리
+      }
+    } catch (error) {
+      console.error("업로드 중 문제 발생:", error);
+      alert("업로드 중 문제가 발생했습니다. 나중에 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -224,19 +261,19 @@ const Upload = () => {
       <HomeContainer>
         <UploadP>Record Title *</UploadP>
         <UploadInput
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           placeholder="타이틀을 입력해주세요"
         />
 
         <UploadP>Upload File *</UploadP>
         <UploadContainer>
           <UploadInput
-            value={selectedFile}
+            value={formData.file}
             placeholder="파일을 업로드 해주세요"
             readOnly
             style={{ width: "23.6vw" }}
-            onChange={(e) => setSelectedFile(e.target.value)}
+            onChange={(e) => setFormData({ ...formData, file: e.target.value })}
           />
 
           <HiddenFileInput
@@ -281,61 +318,89 @@ const Upload = () => {
           <InputP>
             <UploadP>Genre *</UploadP>
             <StyledSelect
-              value={genre}
-              onChange={(e) => setGenre(e.target.value)}
-              defaultValue=""
+              value={formData.genre}
+              onChange={(e) =>
+                setFormData({ ...formData, genre: e.target.value })
+              }
             >
-             <StyledOption value="" disabled={genre !== ''}>장르를 선택해주세요</StyledOption>
-              <StyledOption value="힙합">힙합</StyledOption>
-              <StyledOption value="블루스">블루스</StyledOption>
-              <StyledOption value="클래식">클래식</StyledOption>
-              <StyledOption value="포크">포크</StyledOption>
-              <StyledOption value="팝">팝</StyledOption>
-              <StyledOption value="재즈">재즈</StyledOption>
-              <StyledOption value="인디">인디</StyledOption>
-              <StyledOption value="R&B">R&B</StyledOption>
-              <StyledOption value="락">락</StyledOption>
+              <StyledOption value="">유형을 선택해주세요</StyledOption>
+              {GenreList.map((item) => {
+                return (
+                  <StyledOption value={item.value} key={item.value}>
+                    {item.name}
+                  </StyledOption>
+                );
+              })}
             </StyledSelect>
           </InputP>
 
           <InputP>
             <UploadP>Instrument *</UploadP>
-            <UploadInput
-              placeholder="유형을 선택해주세요"
-              style={{ width: "17.53vw" }}
-              value={instrument}
-              onChange={(e) => setInstrument(e.target.value)}
-            />
+            <StyledSelect
+              value={formData.instrument}
+              onChange={(e) =>
+                setFormData({ ...formData, instrument: e.target.value })
+              }
+            >
+              <StyledOption value="">유형을 선택해주세요</StyledOption>
+              {InstrumentList.map((item) => {
+                return (
+                  <StyledOption value={item.value} key={item.value}>
+                    {item.name}
+                  </StyledOption>
+                );
+              })}
+            </StyledSelect>
           </InputP>
         </InputContainer>
 
         <InputContainer>
           <InputP>
             <UploadP>Mood *</UploadP>
-            <UploadInput
-              placeholder="유형을 선택해주세요"
-              style={{ width: "17.53vw" }}
-              value={mood}
-              onChange={(e) => setMood(e.target.value)}
-            />
+            <StyledSelect
+              value={formData.mood}
+              onChange={(e) =>
+                setFormData({ ...formData, mood: e.target.value })
+              }
+            >
+              <StyledOption value="">유형을 선택해주세요</StyledOption>
+              {MoodList.map((item) => {
+                return (
+                  <StyledOption value={item.value} key={item.value}>
+                    {item.name}
+                  </StyledOption>
+                );
+              })}
+            </StyledSelect>
           </InputP>
 
           <InputP>
             <UploadP>Length *</UploadP>
-            <UploadInput
-              placeholder="유형을 선택해주세요"
-              style={{ width: "17.53vw" }}
-              value={length}
-              onChange={(e) => setLength(e.target.value)}
-            />
+            <StyledSelect
+              value={formData.length}
+              onChange={(e) =>
+                setFormData({ ...formData, length: e.target.value })
+              }
+            >
+              <StyledOption value="">유형을 선택해주세요</StyledOption>
+              {LengthList.map((item) => {
+                return (
+                  <StyledOption value={item.value} key={item.value}>
+                    {item.name}
+                  </StyledOption>
+                );
+              })}
+            </StyledSelect>
           </InputP>
         </InputContainer>
 
         <UploadP>Add Description</UploadP>
         <UploadInput
           placeholder="설명을 입력해주세요"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
         />
       </HomeContainer>
     </Home>
