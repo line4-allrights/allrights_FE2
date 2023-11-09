@@ -290,6 +290,7 @@ export const BgSubTitle = styled.div`
   letter-spacing: -0.8px;
   align-items: flex-end;
   margin-bottom: 3px;
+  justify-content: space-between;
   svg {
     margin-bottom: 5px;
   }
@@ -327,17 +328,10 @@ export const CategoryText = styled.span`
 `;
 
 export const StyledSelect = styled.select`
-  /* height: 2.2vw;
-  width: 17.53vw;
-  border-radius: 36px;
-  border: 2px solid #bfc5d0;
-  background: #16162a; */
-  /* color: #e4e8ef; */
-  /* padding: 0.3vw;
-  font-size: 0.9vw; */
-`;
+  height: 2.2vw;
 
-export const StyledOption = styled.option`
-  background-color: white;
-  padding: 1vw;
+  background: #16162a;
+  color: #e4e8ef;
+  padding: 0.3vw;
+  font-size: 1vw;
 `;
