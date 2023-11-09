@@ -45,18 +45,23 @@ const Signup = () => {
     e.preventDefault();
     if (isFill) {
       try {
-        const response = await API.post("/account/signup/", {
-          username: name,
-          userid: id,
-          password: password,
-        });
-
+        const response = await API.post(
+          "http://127.0.0.1:8000/account/signup/",
+          {
+            username: name,
+            userid: id,
+            password: password,
+          }
+        );
         console.log(response.data);
 
-        // Handle the response accordingly
+        // 회원가입 성공 시 localStorage에 닉네임 저장
+        localStorage.setItem("userNickname", name);
+
+        window.location.href = "/signin";
       } catch (error) {
         console.error("error: ", error);
-        // Handle the error
+        // setResponseMessage("회원가입 실패");
       }
     }
   };
