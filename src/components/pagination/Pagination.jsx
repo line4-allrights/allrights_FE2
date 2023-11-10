@@ -24,26 +24,30 @@ export default function PaginationIcon({ data }) {
   const itemsPerPage = 5;
   const [currentData, setCurrentData] = useState([]);
 
-  // 전체 페이지 수 계산
-  const count = Math.ceil(data.length / itemsPerPage);
-
-  // 페이지 변경시 데이터 업데이트
   useEffect(() => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    setCurrentData(data.slice(indexOfFirstItem, indexOfLastItem));
-  }, [currentPage, data]);
+    // data가 유효한 경우에만 계산 수행
+    if (data) {
+      const indexOfLastItem = currentPage * itemsPerPage;
+      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+      const newCurrentData = data.slice(indexOfFirstItem, indexOfLastItem);
+      setCurrentData(newCurrentData);
+    }
+  }, [currentPage, data]); // currentPage 또는 data가 변경될 때마다 실행
+
+  // 총 페이지 수 계산
+  const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 0;
 
   return (
     <S.PaginationMargin>
       <ThemeProvider theme={theme}>
         <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
-          {/* 현재 페이지에 해당하는 데이터를 렌더링 */}
           {currentData.map(item => (
-            <div key={item.id}>{/* 데이터 항목 렌더링 */}</div>
+            <div key={item.id}>
+              {/* 여기에 각 항목을 렌더링하는 코드 */}
+            </div>
           ))}
           <Pagination
-            count={count}
+            count={totalPages}
             size="medium"
             page={currentPage}
             onChange={(e, page) => setCurrentPage(page)}
@@ -60,3 +64,4 @@ export default function PaginationIcon({ data }) {
     </S.PaginationMargin>
   );
 }
+
