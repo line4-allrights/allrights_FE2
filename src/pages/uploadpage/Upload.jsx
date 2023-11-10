@@ -106,7 +106,7 @@ const InputP = styled.div`
 `;
 
 const HiddenFileInput = styled.input`
-  display: none; 
+  display: none;
 `;
 
 const SelectedButton = styled(SearchButton)`
@@ -135,12 +135,10 @@ const Upload = () => {
   const [music_file, setMusicFile] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [music_image, setMusicImage]=useState(null);
+  const [music_image, setMusicImage] = useState(null);
 
   const fileInputRef = useRef(null);
-  const imageInputRef= useRef(null);
-
-  
+  const imageInputRef = useRef(null);
 
   const GenreList = [
     { value: "hiphop", name: "힙합" },
@@ -230,7 +228,6 @@ const Upload = () => {
       description,
       music_image,
     ];
-    
 
     console.log("Form Data Array:", formDataArray);
 
@@ -242,7 +239,7 @@ const Upload = () => {
     uploadFormData.append("instruments", instruments);
     uploadFormData.append("mood", mood);
     uploadFormData.append("description", description);
-    uploadFormData.append("music_image",music_image);
+    uploadFormData.append("music_image", music_image);
 
     try {
       const response = await fetch("http://127.0.0.1:8000/music/upload/", {
@@ -285,7 +282,7 @@ const Upload = () => {
           placeholder="타이틀을 입력해주세요"
         />
 
-<UploadP>Upload Image *</UploadP>
+        <UploadP>Upload Image *</UploadP>
         <UploadContainer>
           <UploadInput
             value={music_image ? music_image.name : ""}
@@ -302,11 +299,11 @@ const Upload = () => {
 
           <SearchButton
             onClick={handleBrowseImageClick}
-            style={{ width:"8vw",marginLeft: "1vw", marginRight: "3vw" }}
+            style={{ width: "8vw", marginLeft: "1vw", marginRight: "3vw" }}
           >
             Browse Image
           </SearchButton>
-          </UploadContainer>
+        </UploadContainer>
 
         <UploadP>Upload File *</UploadP>
         <UploadContainer>
