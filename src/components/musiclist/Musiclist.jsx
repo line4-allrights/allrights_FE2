@@ -27,18 +27,6 @@ const Musiclist = () => {
       try {
         const response = await API.get("http://127.0.0.1:8000/music/");
         setMusicData(response.data);
-
-        // 이미지를 Blob 형태로 받아오기
-        const imageResponse = await API.get(
-          `http://127.0.0.1:8000/music/${musicId}/`,
-          {
-            responseType: "blob",
-          }
-        );
-
-        // Blob 데이터를 URL로 변환하여 상태에 저장
-        const blobUrl = URL.createObjectURL(imageResponse.data);
-        setImageBlobUrl(blobUrl);
       } catch (error) {
         console.error("음악 데이터를 가져오는 중 에러 발생:", error);
       }
@@ -48,107 +36,88 @@ const Musiclist = () => {
   }, []);
 
   if (!musicData || musicData.length === 0) {
-    return <div></div>; // or some other loading state
+    return <div></div>;
   }
-
-  const {
-    id,
-    username,
-    title,
-    music_file,
-    music_type,
-    genre,
-    instruments,
-    mood,
-    length,
-    description,
-    upload_date,
-    downloads,
-    music_image,
-    author,
-    liker,
-  } = musicData[0];
-
-  // toggleLike 함수 수정
-  const toggleLike = async (musicId) => {
-    try {
-      const response = await API.post(
-        `http://127.0.0.1:8000/music/like/${musicId}/`,
-        null,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NjMwODM1LCJpYXQiOjE2OTk2MzA1MzUsImp0aSI6IjA2NThkNjBjNDE5YjQ3NzM4NGMzNjJlN2Y9ODk2ZjE4IiwidXNlcl9pZCI6NX0.X_IeTKXA61woFwp_4BBh8lnxCxfi2Ta7CvVHARu0qRw",
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.error("좋아요 실패다 ㅋ", error);
-      throw error;
-    }
-  };
-
-  // handleHeartClick 함수 수정
-  const handleHeartClick = async () => {
-    if (!musicData) {
-      console.error("음악 데이터가 없습니다.");
-      return;
-    }
-
-    try {
-      await toggleLike(id);
-      setIsSaved(!isSaved);
-    } catch (error) {
-      console.error("스크랩 실패", error);
-    }
-  };
-  const getHeartColor = () => (isSaved ? "#4A88FF" : "#727782");
-
-  const handleButtonClick = async () => {
-    try {
-      // 다운로드 요청 보내기
-      const response = await API.get(
-        `http://127.0.0.1:8000/music/download/${id}/`,
-        {
-          responseType: "blob",
-        }
-      );
-
-      // 파일 다운로드 링크 생성
-      const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.setAttribute("download", `${title}.mp3`);
-      document.body.appendChild(link);
-      link.click();
-
-      // 다운로드 후 링크 및 객체 제거
-      window.URL.revokeObjectURL(downloadUrl);
-      document.body.removeChild(link);
-    } catch (error) {
-      console.error("다운로드 실패", error);
-    }
-  };
 
   return (
     <>
-      <S.MusicBox>
-        <S.MusicSource>
-          <FontAwesomeIcon
-            icon={faHeart}
-            onClick={handleHeartClick}
-            style={{ color: getHeartColor() }}
-          />
-          <AlbumCover imageUrl={music_image} />
-          <S.MusicInfo>
-            <S.MusicTitle>{title}</S.MusicTitle>
-            <S.MusicOwner>{username}</S.MusicOwner>
-          </S.MusicInfo>
-          <AudioWaveform />
-          <S.DownloadBtn onClick={handleButtonClick}>다운로드</S.DownloadBtn>
-        </S.MusicSource>
-      </S.MusicBox>
+      {musicData.map((music) => {
+        const { id, username, title, music_image } = music;
+        //좋아요 스크랩 기능
+        const toggleLike = async (musicId) => {
+          try {
+            const response = await API.post(
+              `http://127.0.0.1:8000/music/like/${musicId}/`
+            );
+
+            console.log("좋아요 토글 성공:", response.data);
+            return response.data;
+          } catch (error) {
+            console.error("좋아요 토글 실패:", error);
+            throw error;
+          }
+        };
+
+        const getHeartColor = () => (isSaved ? "#4A88FF" : "#727782");
+
+        const handleHeartClick = async () => {
+          try {
+            await toggleLike(id);
+            setIsSaved(!isSaved);
+          } catch (error) {
+            console.error("좋아요 실패", error);
+          }
+        };
+
+        const handleButtonClick = async () => {
+          try {
+            // 다운로드 요청 보내기
+            const response = await API.get(
+              `http://127.0.0.1:8000/music/download/${id}/`,
+              {
+                responseType: "blob",
+              }
+            );
+
+            // 파일 다운로드 링크 생성
+            const downloadUrl = window.URL.createObjectURL(
+              new Blob([response.data])
+            );
+            const link = document.createElement("a");
+            link.href = downloadUrl;
+            link.setAttribute("download", `${title}.mp3`);
+            document.body.appendChild(link);
+            link.click();
+
+            // 다운로드 후 링크 및 객체 제거
+            window.URL.revokeObjectURL(downloadUrl);
+            document.body.removeChild(link);
+          } catch (error) {
+            console.error("다운로드 실패", error);
+          }
+        };
+
+        return (
+          <S.MusicBox key={id}>
+            <S.MusicSource>
+              <FontAwesomeIcon
+                icon={faHeart}
+                onClick={handleHeartClick}
+                style={{ color: getHeartColor() }}
+              />
+              <AlbumCover imageUrl={music_image} />
+              <S.MusicInfo>
+                <S.MusicTitle>{title}</S.MusicTitle>
+                <S.MusicOwner>{username}</S.MusicOwner>
+              </S.MusicInfo>
+              <AudioWaveform musicData={music} />
+              <S.DownloadBtn onClick={handleButtonClick}>
+                다운로드
+              </S.DownloadBtn>
+            </S.MusicSource>
+          </S.MusicBox>
+        );
+      })}
     </>
   );
 };

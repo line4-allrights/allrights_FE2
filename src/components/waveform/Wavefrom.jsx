@@ -5,11 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 import { API } from "../../api/axios";
 
-const AudioWaveform = () => {
+const AudioWaveform = ({ musicData }) => {
   const waveformRef = useRef(null);
   const wavesurferRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [musicData, setMusicData] = useState([]);
 
   const fetchMusicData = async () => {
     try {
@@ -26,7 +25,7 @@ const AudioWaveform = () => {
 
   useEffect(() => {
     const initializeWaveSurfer = async () => {
-      if (musicData.length === 0) {
+      if (!musicData) {
         return; // 음악 데이터가 없으면 아무것도 하지 않음
       }
 
@@ -39,7 +38,7 @@ const AudioWaveform = () => {
 
       wavesurferRef.current = wavesurfer;
 
-      const musicId = musicData[0].id;
+      const musicId = musicData.id;
 
       try {
         // 음악 데이터를 Blob 형태로 받아옴
@@ -101,7 +100,7 @@ const AudioWaveform = () => {
           }}
         />
       </S.Button>
-      <S.Length>3:44</S.Length>
+      <S.Length>11:11</S.Length>
     </>
   );
 };

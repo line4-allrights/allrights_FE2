@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import * as S from "./style";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Pagination from "@mui/material/Pagination";
@@ -6,6 +6,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import Stack from "@mui/material/Stack";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { API } from "../../api/axios";
 
 const theme = createTheme({
   components: {
@@ -19,32 +20,43 @@ const theme = createTheme({
   },
 });
 
-export default function PaginationIcon({ data }) {
+export default function PaginatedMusicList() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const [currentData, setCurrentData] = useState([]);
+  const [musicData, setMusicData] = useState([]);
 
   useEffect(() => {
-    // data가 유효한 경우에만 계산 수행
-    if (data) {
-      const indexOfLastItem = currentPage * itemsPerPage;
-      const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-      const newCurrentData = data.slice(indexOfFirstItem, indexOfLastItem);
-      setCurrentData(newCurrentData);
-    }
-  }, [currentPage, data]); // currentPage 또는 data가 변경될 때마다 실행
+    const fetchMusicData = async () => {
+      try {
+        const response = await API.get("http://127.0.0.1:8000/music/");
+        setMusicData(response.data);
+      } catch (error) {
+        console.error("음악 데이터를 가져오는 중 에러 발생:", error);
+      }
+    };
 
-  // 총 페이지 수 계산
-  const totalPages = data ? Math.ceil(data.length / itemsPerPage) : 0;
+    fetchMusicData();
+  }, []);
+
+  // 현재 페이지에 해당하는 음악 데이터 계산
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentData = musicData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // 전체 페이지 수 계산
+  const totalPages = musicData ? Math.ceil(musicData.length / itemsPerPage) : 0;
 
   return (
     <S.PaginationMargin>
       <ThemeProvider theme={theme}>
-        <Stack direction="row" spacing={2} alignItems="center" justifyContent="center">
-          {currentData.map(item => (
-            <div key={item.id}>
-              {/* 여기에 각 항목을 렌더링하는 코드 */}
-            </div>
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          justifyContent="center"
+        >
+          {currentData.map((item) => (
+            <div key={item.id}>{/* 여기에 각 항목을 렌더링하는 코드 */}</div>
           ))}
           <Pagination
             count={totalPages}
@@ -64,4 +76,3 @@ export default function PaginationIcon({ data }) {
     </S.PaginationMargin>
   );
 }
-
