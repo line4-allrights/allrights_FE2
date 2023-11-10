@@ -1,9 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import AllRights from "../../assets/images/AllRights.png";
 import colors from "../../styles/colors";
 import axios from "axios";
+import { API } from "../../api/axios";
 import { useEffect } from "react";
 
 const HeaderNavBar = styled.div`
@@ -49,11 +50,10 @@ const Header = () => {
       setUserNickname(storedNickname);
     }
   }, []);
-  
 
   const handleLogout = async () => {
     try {
-      const response = await axios.post('/account/signout/');
+      const response = await API.post("http://127.0.0.1:8000/account/signout/");
       if (response.status === 200) {
         setIsLoggedIn(false);
         setUserNickname("");
@@ -65,7 +65,13 @@ const Header = () => {
 
   return (
     <HeaderNavBar>
-      <div style={{ display: "flex", justifyContent: "space-between", width: "77%" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "77%",
+        }}
+      >
         <div style={{ display: "flex", gap: "2vw", alignItems: "center" }}>
           <StyledNavLink to="/">
             <LogoImage src={AllRights} alt="로고" />
