@@ -9,6 +9,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import PaginationIcon from "../../components/pagination/Pagination";
 import ItemPhone from "../../components/listItem/item-phone";
 import BgMusicImg from "../../assets/images/BgMusicImg.png";
+import { API } from "../../api/axios";
 
 const BgMusic = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +17,22 @@ const BgMusic = () => {
   const [activeMenu, setActiveMenu] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [sort, setSort] = useState("");
+  const [sortOptions, setSortOptions] = useState([]);
+
+  const fetchSortOptions = async () => {
+    try {
+      const response = await API.get(
+        "http://127.0.0.1:8000/music/sort-options/"
+      );
+      setSortOptions(response.data);
+    } catch (error) {
+      console.error("정렬 기준을 불러오는 중 에러 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSortOptions();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -32,13 +49,11 @@ const BgMusic = () => {
   const openSideBar = (menuName) => {
     setIsSideBarOpen(true);
     setActiveMenu(menuName);
-    console.log("사이드바가 열렸습니다.");
   };
 
   const closeSideBar = () => {
     setIsSideBarOpen(false);
     setActiveMenu("");
-    console.log("사이드바가 닫혔습니다.");
   };
 
   const handleOutsideClick = (e) => {
@@ -256,9 +271,9 @@ const BgMusic = () => {
               <option value="" disabled hidden>
                 정렬
               </option>
-              {SortList.map((item) => (
-                <option value={item.value} key={item.value}>
-                  {item.name}
+              {sortOptions.map((option) => (
+                <option value={option.value} key={option.value}>
+                  {option.name}
                 </option>
               ))}
             </S.StyledSelect>

@@ -54,12 +54,20 @@ const Musiclist = () => {
     music_image,
     author,
     liker,
-  } = musicData[0]; // Assuming you want the first music, change the index accordingly
+  } = musicData[0];
 
+  // toggleLike 함수 수정
   const toggleLike = async (musicId) => {
     try {
       const response = await API.post(
-        `http://127.0.0.1:8000/music/like/${musicId}/`
+        `http://127.0.0.1:8000/music/like/${musicId}/`,
+        null,
+        {
+          headers: {
+            Authorization:
+              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NjMwODM1LCJpYXQiOjE2OTk2MzA1MzUsImp0aSI6IjA2NThkNjBjNDE5YjQ3NzM4NGMzNjJlN2Y9ODk2ZjE4IiwidXNlcl9pZCI6NX0.X_IeTKXA61woFwp_4BBh8lnxCxfi2Ta7CvVHARu0qRw",
+          },
+        }
       );
       return response.data;
     } catch (error) {
@@ -68,8 +76,7 @@ const Musiclist = () => {
     }
   };
 
-  const getHeartColor = () => (isSaved ? "#4A88FF" : "#727782");
-
+  // handleHeartClick 함수 수정
   const handleHeartClick = async () => {
     if (!musicData) {
       console.error("음악 데이터가 없습니다.");
@@ -77,15 +84,38 @@ const Musiclist = () => {
     }
 
     try {
-      await toggleLike({ music_id });
+      await toggleLike(id);
       setIsSaved(!isSaved);
     } catch (error) {
       console.error("스크랩 실패", error);
     }
   };
+  const getHeartColor = () => (isSaved ? "#4A88FF" : "#727782");
 
-  const handleButtonClick = () => {
-    console.log("음원이 다운로드 되었습니다.");
+  const handleButtonClick = async () => {
+    try {
+      // 다운로드 요청 보내기
+      const response = await API.get(
+        `http://127.0.0.1:8000/music/download/${id}/`,
+        {
+          responseType: "blob", // 이 옵션을 사용하여 파일 다운로드
+        }
+      );
+
+      // 파일 다운로드 링크 생성
+      const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.setAttribute("download", `${title}.mp3`);
+      document.body.appendChild(link);
+      link.click();
+
+      // 다운로드 후 링크 및 객체 제거
+      window.URL.revokeObjectURL(downloadUrl);
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("다운로드 실패", error);
+    }
   };
 
   return (

@@ -1,6 +1,7 @@
 import color from "../../styles/colors";
 import styled from "styled-components";
 import React, { useState, useRef } from "react";
+import { API } from "../../api/axios";
 
 const Home = styled.div`
   height: 58vw;
@@ -242,15 +243,20 @@ const Upload = () => {
     uploadFormData.append("music_image", music_image);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/music/upload/", {
-        method: "POST",
-        body: uploadFormData,
-      });
+      const response = await API.post(
+        "http://127.0.0.1:8000/music/",
+        uploadFormData,
+        {
+          // headers: {
+          //   Authorization:
+          //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NjMwODM1LCJpYXQiOjE2OTk2MzA1MzUsImp0aSI6IjA2NThkNjBjNDE5YjQ3NzM4NGMzNjJlN2Y5ODk2ZjE4IiwidXNlcl9pZCI6NX0.X_IeTKXA61woFwp_4BBh8lnxCxfi2Ta7CvVHARu0qRw",
+          // },
+        }
+      );
 
-      if (response.ok) {
+      if (response.status === 200) {
         alert("업로드가 완료되었습니다.");
         window.location.href = "/mypage";
-
       } else {
         alert("업로드 중 문제가 발생했습니다.");
       }
@@ -269,8 +275,7 @@ const Upload = () => {
       instruments.trim() !== "" &&
       mood.trim() !== "" &&
       description.trim() !== "" &&
-      music_type !== "" &&
-      length.trim() !== ""
+      music_type !== ""
     );
   };
 
