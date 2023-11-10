@@ -22,7 +22,7 @@ const BgMusic = () => {
   const fetchSortOptions = async () => {
     try {
       const response = await API.get(
-        "http://127.0.0.1:8000/music/sort-options/"
+        "http://127.0.0.1:8000/music/?sort_by=downloads"
       );
       setSortOptions(response.data);
     } catch (error) {
@@ -271,7 +271,7 @@ const BgMusic = () => {
               <option value="" disabled hidden>
                 정렬
               </option>
-              {sortOptions.map((option) => (
+              {SortList.map((option) => (
                 <option value={option.value} key={option.value}>
                   {option.name}
                 </option>

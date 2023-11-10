@@ -11,7 +11,8 @@ const AlbumCover = styled.div`
   display: flex;
   border-radius: 9px;
   background: #727782;
-  background-image: url(${(props) => props.imageUrl});
+  background-image: ${(props) => `url(${props.imageUrl})`};
+  background-size: cover;
   width: 3.5vw;
   height: 3.5vw;
   margin-right: 1rem;
@@ -26,6 +27,18 @@ const Musiclist = () => {
       try {
         const response = await API.get("http://127.0.0.1:8000/music/");
         setMusicData(response.data);
+
+        // 이미지를 Blob 형태로 받아오기
+        const imageResponse = await API.get(
+          `http://127.0.0.1:8000/music/${musicId}/`,
+          {
+            responseType: "blob",
+          }
+        );
+
+        // Blob 데이터를 URL로 변환하여 상태에 저장
+        const blobUrl = URL.createObjectURL(imageResponse.data);
+        setImageBlobUrl(blobUrl);
       } catch (error) {
         console.error("음악 데이터를 가져오는 중 에러 발생:", error);
       }
@@ -98,7 +111,7 @@ const Musiclist = () => {
       const response = await API.get(
         `http://127.0.0.1:8000/music/download/${id}/`,
         {
-          responseType: "blob", // 이 옵션을 사용하여 파일 다운로드
+          responseType: "blob",
         }
       );
 
