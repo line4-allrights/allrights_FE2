@@ -35,7 +35,7 @@ const Musiclist = () => {
   }, []);
 
   if (!musicData || musicData.length === 0) {
-    return <div>Loading...</div>;
+    return <div></div>; // or some other loading state
   }
 
   const {
@@ -77,7 +77,7 @@ const Musiclist = () => {
     }
 
     try {
-      await toggleLike(music_id);
+      await toggleLike({ music_id });
       setIsSaved(!isSaved);
     } catch (error) {
       console.error("스크랩 실패", error);
