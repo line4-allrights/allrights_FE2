@@ -4,6 +4,15 @@ import ButtonMain from "../../components/button/button-main";
 import Check from "../../assets/images/Check.png";
 import ItemPhone from "../../components/listItem/item-phone";
 import InputSearch from "../../components/input/input-search";
+import ListEffect from "../../components/list/list-effect";
+import PostsData from "../../util/posts";
+import { useState } from "react";
+import { useEffect } from "react";
+import PaginationIcon from "../../components/pagination/Pagination";
+
+const EffectContainer = styled.div`
+  width:60%;
+`
 
 export const Home = styled.div`
   display: flex;
@@ -63,6 +72,21 @@ export const CheckImage = styled.img`
 `;
 
 const Soundeffect = () => {
+
+  const itemsPerPage = 5;
+  const [postsData, setPostsData] = useState(PostsData);
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  // 현재 페이지에 따른 데이터 필터링
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentPosts = postsData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // 페이지 변경 처리
+  const handlePageChange = (event, page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Home>
       <HomeBanner>
@@ -92,10 +116,20 @@ const Soundeffect = () => {
 
           <CheckImage img src={Check} />
         </HomeExplain>
+
       </HomeBanner>
 
       <InputSearch />
       <ItemPhone />
+
+      <EffectContainer>
+      <ListEffect data={currentPosts} />
+        <PaginationIcon 
+          page={currentPage}
+          count={Math.ceil(postsData.length / itemsPerPage)}
+          onChange={handlePageChange}
+        />
+      </EffectContainer>
     </Home>
   );
 };

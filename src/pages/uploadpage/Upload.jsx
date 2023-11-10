@@ -249,6 +249,8 @@ const Upload = () => {
 
       if (response.ok) {
         alert("업로드가 완료되었습니다.");
+        window.location.href = "/mypage";
+
       } else {
         alert("업로드 중 문제가 발생했습니다.");
       }
