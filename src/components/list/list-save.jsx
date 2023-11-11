@@ -11,8 +11,8 @@ const ListSave = ({data}) => {
                         id = {item.id}
                         title = {item.title}
                         username = {item.username}
-                        song = {item.song}
-                        music_img={item.music_img}
+                        music_file = {item.music_file}
+                        music_image={item.music_image}
                     />
                 )
             })}

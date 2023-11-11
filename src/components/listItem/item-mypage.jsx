@@ -16,10 +16,10 @@ const MyPageP = styled.p`
 `;
 
 const ItemMyPage = (props) => {
-    const { userid, username, img, bio } = props;
+    const { id, username, img, bio } = props;
 
     return (
-        <StyleItem key={userid}>
+        <StyleItem key={id}>
             <div className="left" style={{ width: "20%", textAlign: "center" }}>
                 <img src={img} alt="profilePhoto" style={{ width: "10vw", height: "10vw", border: "none", borderRadius: "50%" }}/>
                 <br />

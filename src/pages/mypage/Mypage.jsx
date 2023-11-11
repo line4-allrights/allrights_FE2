@@ -54,27 +54,64 @@ const MyPage = () => {
     const [showPost, setShowPost] = useState(true);
     const [postData, setPostData] = useState([]);
     const [saveData, setSaveData] = useState([]);
-    const [userInfo, setUserInfo] = useState(MyPageData);
+    const [userInfo, setUserInfo] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                if (userInfo) { 
-                    const response = await API.get(`http://127.0.0.1:8000/account/mypage/${parseInt(userInfo?.userid, 10)}/`);
-                    setPostData(response.data.post);
-                    setSaveData(response.data.save);
-                    setUserInfo(response.data.user_info);
+                const access = localStorage.getItem("access");
+                console.log(access);
+                if (!access) {
+                    throw new Error('Access token not found in localStorage.');
                 }
+
+                const response = await API.get("http://127.0.0.1:8000/account/auth/", {
+                    headers: {
+                        Authorization: `Bearer ${access}`
+                    }
+                });
+
+                // 서버 응답에서 데이터 추출
+                const userData = response.data;
+                const { user_info: userInfo, post: postData, save: saveData } = userData;
+
+                // 상태에 데이터 설정
+                setUserInfo(userInfo);
+                setPostData(postData);
+                setSaveData(saveData);
             } catch (error) {
-                console.error("error", error);
+                setError(error.message || 'An error occurred.');
             }
         };
-        fetchData();
-    }, [userInfo]);
 
-    useEffect(() => {
-        setUserInfo(MyPageData);
+        fetchData();
     }, []);
+
+
+    if (error) {
+        return <p>Error: {error}</p>;
+    }
+
+
+// ... (나머지 코드)
+
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             if (userInfo) { 
+    //                 const response = await API.get(`http://127.0.0.1:8000/account/mypage/${id}/`);
+    //                 setUserInfo(response.data.user_info);
+    //                 setPostData(response.data.post);
+    //                 setSaveData(response.data.save);
+    //             }
+    //         } catch (error) {
+    //             console.error("error", error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, []);
 
     return (
         <MyPageContainer>

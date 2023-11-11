@@ -43,6 +43,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [userNickname, setUserNickname] = useState("");
 
+
   useEffect(() => {
     // localStorage에서 닉네임 가져오기
     const storedNickname = localStorage.getItem("userNickname");
@@ -50,34 +51,46 @@ const Signin = () => {
       setUserNickname(storedNickname);
     }
   }, []);
-  // const [responseMessage, setResponseMessage] = useState("");
 
-  const isFill = id !== "" && password !== "";
+    const isFill = id !== "" && password !== "";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isFill) {
-      axios
-        .post("http://127.0.0.1:8000/account/signin/", {
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (id && password) {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/account/signin/",
+        {
           userid: id,
           password: password,
-        })
-        .then((res) => {
-          console.log(res.data);
-          // setResponseMessage("로그인 성공");
-          window.location.href = "/";
-        })
-        .catch((err) => {
-          console.log("error: ", err);
-          // setResponseMessage("로그인 실패");
-        });
+        },
+        {
+          withCredentials: true // 쿠키를 사용하여 요청을 보낼 때 이 옵션을 설정합니다.
+        }
+      );
+
+      const { message, user_info } = response.data; // 백엔드로부터 받은 데이터 추출
+
+      if (message === "login success") {
+        // 로그인 성공 시 처리
+        localStorage.setItem("userNickname", user_info.username); // 필요한 경우 사용자 닉네임을 로컬 스토리지에 저장
+        // 다른 작업 수행 가능 (예: 페이지 이동 등)
+        window.location.href = "/";
+      } else {
+        // 로그인 실패 시 처리 (예: 에러 메시지 표시)
+        console.log("로그인 실패: ", message);
+      }
+    } catch (error) {
+      console.log("error: ", error.response.data);
     }
-  };
+  }
+};
+
+
 
   const handleSignup = () => {
     window.location.href = "/signup";
   };
-
   return (
     <SignIn>
       <SignInP>로그인</SignInP>

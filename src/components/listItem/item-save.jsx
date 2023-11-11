@@ -50,7 +50,7 @@ const DeleteButton = styled.button`
 `
 
 const ItemSave = (props) => {
-    const { id, title, username, music_img, song } = props;
+    const { id, title, username, music_image, music_file } = props;
     const waveformRef = useRef(null);
     const wavesurferRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -86,7 +86,7 @@ const ItemSave = (props) => {
 
         wavesurferRef.current = wavesurfer;
 
-        wavesurfer.load(song);
+        wavesurfer.load(music_file);
 
         wavesurfer.on("ready", () => {
             setIsPlaying(false);
@@ -109,7 +109,7 @@ const ItemSave = (props) => {
                     }}
                 />
             </Button>
-            <img src={music_img} alt="img" style={{ width: "3.2vw", height: "3.2vw", border: "none", borderRadius: "0.8vw" }} />
+            <img src={music_image} alt="img" style={{ width: "3.2vw", height: "3.2vw", border: "none", borderRadius: "0.8vw" }} />
             <div style={{width: "20%"}}>
                 <SaveP>{title}</SaveP>
                 <SaveP style={{ fontSize: "0.8vw", fontWeight: 500 }}>{username}</SaveP>
