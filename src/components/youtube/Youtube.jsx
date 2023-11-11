@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Youtube = () => {
   const containerStyle1 = {
-    width: "14vw",
+    width: "14.25vw",
     height: "30.9vw",
     border: "0.15vw solid transparent",
     borderTop: "none",
@@ -17,7 +17,7 @@ const Youtube = () => {
   };
 
   const containerStyle2 = {
-    width: "14vw",
+    width: "14.25vw",
     height: "30.9vw",
     border: "0.15vw solid transparent",
     borderBottom: "none",
@@ -30,7 +30,7 @@ const Youtube = () => {
   };
 
   return (
-    <div style={{ display: "flex", gap: "1vw" }}>
+    <div style={{ display: "flex", gap: "1.5vw" }}>
       <div style={containerStyle1}>
         <iframe
           width="99%"

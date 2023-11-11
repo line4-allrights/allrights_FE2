@@ -1,3 +1,4 @@
+// PaginatedMusicList.jsx
 import React, { useState, useEffect } from "react";
 import * as S from "./style";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -20,7 +21,7 @@ const theme = createTheme({
   },
 });
 
-export default function PaginatedMusicList() {
+const PaginatedMusicList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   const [musicData, setMusicData] = useState([]);
@@ -38,12 +39,12 @@ export default function PaginatedMusicList() {
     fetchMusicData();
   }, []);
 
-  // 현재 페이지에 해당하는 음악 데이터 계산
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = musicData.slice(indexOfFirstItem, indexOfLastItem);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentData = Array.isArray(musicData)
+    ? musicData.slice(startIndex, endIndex)
+    : [];
 
-  // 전체 페이지 수 계산
   const totalPages = musicData ? Math.ceil(musicData.length / itemsPerPage) : 0;
 
   return (
@@ -56,7 +57,7 @@ export default function PaginatedMusicList() {
           justifyContent="center"
         >
           {currentData.map((item) => (
-            <div key={item.id}>{/* 여기에 각 항목을 렌더링하는 코드 */}</div>
+            <div key={item.id}></div>
           ))}
           <Pagination
             count={totalPages}
@@ -75,4 +76,6 @@ export default function PaginatedMusicList() {
       </ThemeProvider>
     </S.PaginationMargin>
   );
-}
+};
+
+export default PaginatedMusicList;
