@@ -1,15 +1,74 @@
 import React, { useEffect, useRef, useState } from "react";
 import * as S from "./style";
 import WaveSurfer from "wavesurfer.js";
-import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { faPause } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
+import { API } from "../../api/axios";
 
-const AudioWaveform = () => {
+const AudioWaveform = ({ musicData }) => {
   const waveformRef = useRef(null);
   const wavesurferRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const fetchMusicData = async () => {
+    try {
+      const response = await API.get("http://127.0.0.1:8000/music/");
+      setMusicData(response.data);
+    } catch (error) {
+      console.error("음악 데이터를 가져오는 중 에러 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMusicData();
+  }, []);
+
+  useEffect(() => {
+    const initializeWaveSurfer = async () => {
+      if (!musicData) {
+        return; // 음악 데이터가 없으면 아무것도 하지 않음
+      }
+
+      const wavesurfer = WaveSurfer.create({
+        container: waveformRef.current,
+        waveColor: "#BFC5D0",
+        progressColor: "#E4E8EF",
+        height: 30,
+      });
+
+      wavesurferRef.current = wavesurfer;
+
+      const musicId = musicData.id;
+
+      try {
+        // 음악 데이터를 Blob 형태로 받아옴
+        const response = await API.get(
+          `http://127.0.0.1:8000/music/download/${musicId}/`,
+          {
+            responseType: "blob",
+          }
+        );
+
+        // Blob 데이터를 URL로 변환하여 Wavesurfer에 로드
+        const blobUrl = URL.createObjectURL(response.data);
+        wavesurfer.load(blobUrl);
+
+        wavesurfer.on("ready", () => {
+          setIsPlaying(false);
+        });
+      } catch (error) {
+        console.error("음악 데이터를 불러오는 중 에러 발생:", error);
+      }
+    };
+
+    initializeWaveSurfer();
+
+    return () => {
+      if (wavesurferRef.current) {
+        wavesurferRef.current.destroy();
+      }
+    };
+  }, [musicData]);
 
   const handlePlayPause = () => {
     if (wavesurferRef.current) {
@@ -21,27 +80,6 @@ const AudioWaveform = () => {
       setIsPlaying(!isPlaying);
     }
   };
-
-  useEffect(() => {
-    const wavesurfer = WaveSurfer.create({
-      container: waveformRef.current,
-      waveColor: "#BFC5D0",
-      progressColor: "#E4E8EF",
-      height: 30,
-    });
-
-    wavesurferRef.current = wavesurfer;
-
-    wavesurfer.load("src/assets/music/LetItGo.mp3");
-
-    wavesurfer.on("ready", () => {
-      setIsPlaying(false);
-    });
-
-    return () => {
-      wavesurfer.destroy();
-    };
-  }, []);
 
   return (
     <>
@@ -62,7 +100,7 @@ const AudioWaveform = () => {
           }}
         />
       </S.Button>
-      <S.Length>3:44</S.Length>
+      <S.Length>11:11</S.Length>
     </>
   );
 };

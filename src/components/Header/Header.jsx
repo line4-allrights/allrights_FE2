@@ -38,25 +38,45 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const StyledButton = styled.button`
+  display: flex;
+  color: #bfc5d0;
+  font-size: 0.8vw;
+  font-weight: 500;
+  text-decoration: none;
+  align-items: center;
+`;
+
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userNickname, setUserNickname] = useState("");
 
   useEffect(() => {
-    // localStorage에서 닉네임 가져오기
-    const storedNickname = localStorage.getItem("userNickname");
-    if (storedNickname) {
-      setIsLoggedIn(true);
-      setUserNickname(storedNickname);
+    try {
+      const storedNickname = localStorage.getItem("userNickname");
+
+      if (storedNickname) {
+        setIsLoggedIn(true);
+        setUserNickname(storedNickname);
+      } else {
+        setIsLoggedIn(false);
+        setUserNickname("");
+      }
+    } catch (error) {
+      console.error("Error in useEffect:", error);
     }
   }, []);
 
   const handleLogout = async () => {
     try {
-      const response = await API.post("http://127.0.0.1:8000/account/signout/");
-      if (response.status === 200) {
+      const response = await API.delete(
+        "http://127.0.0.1:8000/account/signout/"
+      );
+      console.log("Logout response:", response);
+
+      if (response.status === 202) {
+        // 상태 변수 업데이트
         setIsLoggedIn(false);
-        setUserNickname("");
       }
     } catch (error) {
       console.error("Logout failed:", error);
@@ -86,7 +106,7 @@ const Header = () => {
               <span style={{ color: colors.navtext, fontSize: "1vw" }}>
                 {userNickname}
               </span>
-              <button onClick={handleLogout}>로그아웃</button>
+              <StyledButton onClick={handleLogout}>로그아웃</StyledButton>
             </>
           ) : (
             <>
@@ -94,7 +114,7 @@ const Header = () => {
               <p style={{ color: colors.navtext, fontSize: "1vw" }}>|</p>
               <StyledNavLink to="/signup">Sign Up</StyledNavLink>
             </>
-          )}
+          )}{" "}
         </div>
       </div>
     </HeaderNavBar>
