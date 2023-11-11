@@ -133,10 +133,10 @@ const StyledOption = styled.option`
 
 const Upload = () => {
   const [music_type, setMusicType] = useState("");
-  const [music_file, setMusicFile] = useState(null);
+  const [music_file, setMusicFile] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [music_image, setMusicImage] = useState(null);
+  const [music_image, setMusicImage] = useState("");
 
   const fileInputRef = useRef(null);
   const imageInputRef = useRef(null);
@@ -145,36 +145,34 @@ const Upload = () => {
     { value: "hiphop", name: "힙합" },
     { value: "blues", name: "블루스" },
     { value: "classic", name: "클래식" },
-    { value: "folk", name: "포크" },
+    { value: "fork", name: "포크" },
     { value: "pop", name: "팝" },
     { value: "jazz", name: "재즈" },
     { value: "indie", name: "인디" },
-    { value: "r&b", name: "R&B" },
+    { value: "rnb", name: "R&B" },
     { value: "rock", name: "락" },
   ];
 
   const [genre, setGenre] = useState("");
 
   const InstrumentList = [
-    { value: "acoustic", name: "어쿠스틱 기타" },
+    { value: "acoustic guitar", name: "어쿠스틱 기타" },
     { value: "base", name: "베이스" },
     { value: "drum", name: "드럼" },
     { value: "violin", name: "바이올린" },
-    { value: "piano", name: "피아노" },
-    { value: "etc", name: "etc" },
+    { value: "piano", name: "피아노" }
   ];
 
   const [instruments, setInstruments] = useState("");
 
   const MoodList = [
-    { value: "sad", name: "우울한" },
-    { value: "exciting", name: "신나는" },
-    { value: "cheerful", name: "쾌활한" },
+    { value: "depressed", name: "우울한" },
+    { value: "excited", name: "신나는" },
+    { value: "happy", name: "쾌활한" },
     { value: "peaceful", name: "평화로운" },
     { value: "serious", name: "심각한" },
     { value: "urgent", name: "급박한" },
-    { value: "joyful", name: "즐거운" },
-    { value: "funny", name: "웃긴" },
+    { value: "horrifying", name: "소름 끼치는" },
   ];
 
   const [mood, setMood] = useState("");
@@ -196,6 +194,7 @@ const Upload = () => {
     if (file) {
       setMusicFile(file);
     }
+    console.log(file)
   };
 
   const handleImageChange = (event) => {
@@ -203,6 +202,7 @@ const Upload = () => {
     if (file) {
       setMusicImage(file);
     }
+    console.log(file)
   };
 
   const handleBrowseClick = () => {
@@ -219,19 +219,9 @@ const Upload = () => {
       return;
     }
 
-    const formDataArray = [
-      title,
-      music_file,
-      music_type,
-      genre,
-      instruments,
-      mood,
-      description,
-      music_image,
-    ];
+    
 
-    console.log("Form Data Array:", formDataArray);
-
+    
     const uploadFormData = new FormData();
     uploadFormData.append("title", title);
     uploadFormData.append("music_file", music_file);
@@ -241,20 +231,25 @@ const Upload = () => {
     uploadFormData.append("mood", mood);
     uploadFormData.append("description", description);
     uploadFormData.append("music_image", music_image);
+    uploadFormData.append("length", length);
+    uploadFormData.append("enctype","multipart/form-data");
+
+    for (let [key, value] of uploadFormData.entries()) {
+      console.log(key, value);
+    }
 
     try {
       const response = await API.post(
         "http://127.0.0.1:8000/music/",
         uploadFormData,
         {
-          // headers: {
-          //   Authorization:
-          //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NjMwODM1LCJpYXQiOjE2OTk2MzA1MzUsImp0aSI6IjA2NThkNjBjNDE5YjQ3NzM4NGMzNjJlN2Y5ODk2ZjE4IiwidXNlcl9pZCI6NX0.X_IeTKXA61woFwp_4BBh8lnxCxfi2Ta7CvVHARu0qRw",
-          // },
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         alert("업로드가 완료되었습니다.");
         window.location.href = "/mypage";
       } else {
