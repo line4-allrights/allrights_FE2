@@ -118,7 +118,15 @@ const Soundeffect = () => {
               variant="white"
               linkTo="/Upload"
             />
-            <ButtonMain buttonText="다운로드 하기" />
+            <ButtonMain
+              buttonText="다운로드 하기"
+              onClick={() => {
+                const soundSection = document.getElementById("soundContainer");
+                if (soundSection) {
+                  soundSection.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            />
           </ButtonContainer>
 
           <CheckImage img src={Check} />
@@ -139,15 +147,18 @@ const Soundeffect = () => {
               <option value="" disabled hidden>
                 정렬
               </option>
-              {SortList.map((option) => (
-                <option value={option.value} key={option.value}>
-                  {option.name}
-                </option>
-              ))}
+
+                {SortList.map((option) => (
+                  <option value={option.value} key={option.value}>
+                    {option.name}
+                  </option>
+                ))}
             </S.StyledSelect>
           </S.BgSubTitle>
 
-          <MusicEffect />
+          <section id="soundContainer">
+            <MusicEffect />
+          </section>
 
           <PaginationIcon />
           </S.BgMusicBox>
