@@ -20,7 +20,6 @@ const AlbumCover = styled.div`
 `;
 
 const Musiclist = () => {
-  const [isSaved, setIsSaved] = useState(false);
   const [musicData, setMusicData] = useState([]);
 
   useEffect(() => {
@@ -56,22 +55,20 @@ const Musiclist = () => {
 
   const handleHeartClick = async (id) => {
     try {
-      const response = await API.post(
-        `http://127.0.0.1:8000/music/like/${id}/`,
-        null,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NjMwODM1LCJpYXQiOjE2OTk2MzA1MzUsImp0aSI6IjA2NThkNjBjNDE5YjQ3NzM4NGMzNjJlN2Y5ODk2ZjE4IiwidXNlcl9pZCI6NX0.X_IeTKXA61woFwp_4BBh8lnxCxfi2Ta7CvVHARu0qRw",
-          },
-        }
+      // 클릭할 때마다 좋아요 상태를 토글하는 요청을 서버에 보냄
+      await API.post(`http://127.0.0.1:8000/music/like/${id}/`, null);
+
+      // 서버 응답 없이 성공하면, musicData 상태를 업데이트
+      setMusicData((prevMusicData) =>
+        prevMusicData.map((music) =>
+          music.id === id ? { ...music, isLiked: !music.isLiked } : music
+        )
       );
-      console.log("좋아요 토글 성공:", response.data);
-      setIsSaved(!isSaved);
     } catch (error) {
       console.error("좋아요 토글 실패:", error);
     }
   };
+
   const handleButtonClick = async (id, title) => {
     try {
       const response = await API.get(
@@ -98,7 +95,7 @@ const Musiclist = () => {
   return (
     <>
       {musicData.map((music) => {
-        const { id, username, title, music_image } = music;
+        const { id, username, title, music_image, isLiked } = music;
 
         return (
           <S.MusicBox key={id}>
@@ -106,7 +103,7 @@ const Musiclist = () => {
               <FontAwesomeIcon
                 icon={faHeart}
                 onClick={() => handleHeartClick(id)}
-                style={{ color: isSaved ? "#4A88FF" : "#727782" }}
+                style={{ color: isLiked ? "#4A88FF" : "#727782" }}
               />
               <AlbumCover imageUrl={music_image} />
               <S.MusicInfo>
