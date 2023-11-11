@@ -43,6 +43,7 @@ const Signin = () => {
   const [password, setPassword] = useState("");
   const [userNickname, setUserNickname] = useState("");
 
+
   useEffect(() => {
     // localStorage에서 닉네임 가져오기
     const storedNickname = localStorage.getItem("userNickname");
@@ -50,34 +51,40 @@ const Signin = () => {
       setUserNickname(storedNickname);
     }
   }, []);
-  // const [responseMessage, setResponseMessage] = useState("");
 
-  const isFill = id !== "" && password !== "";
+    const isFill = id !== "" && password !== "";
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isFill) {
-      axios
-        .post("http://127.0.0.1:8000/account/signin/", {
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (id && password) {
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/account/signin/",
+        {
           userid: id,
           password: password,
-        })
-        .then((res) => {
-          console.log(res.data);
-          // setResponseMessage("로그인 성공");
-          window.location.href = "/";
-        })
-        .catch((err) => {
-          console.log("error: ", err);
-          // setResponseMessage("로그인 실패");
-        });
+        }
+      );
+
+      const { message, user_info } = response.data; 
+
+      if (message === "login success") {
+        localStorage.setItem("userNickname", user_info.username);
+        window.location.href = "/";
+      } else {
+        console.log("로그인 실패: ", message);
+      }
+    } catch (error) {
+      console.log("error: ", error.response.data);
     }
-  };
+  }
+};
+
+
 
   const handleSignup = () => {
     window.location.href = "/signup";
   };
-
   return (
     <SignIn>
       <SignInP>로그인</SignInP>
