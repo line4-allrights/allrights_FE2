@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import colors from "../../styles/colors";
-import Allrights from "/Allrights_not.png";
+// import Allrights from "AllRights_not.png";
 import NotButton from "../../components/button/button-main";
 
 const NotfoundContainer = styled.div`
@@ -30,11 +30,11 @@ const Notfound = () => {
           alignItems: "center",
         }}
       >
-        <img
+        {/* <img
           src={Allrights}
           alt="Allrights"
           style={{ width: "19vw", height: "11vw" }}
-        />
+        /> */}
         <NotfoundP style={{ marginTop: "5vw" }}>SORRY</NotfoundP>
         <div
           style={{
