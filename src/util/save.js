@@ -1,27 +1,24 @@
 const SaveData = [
     {
         "id": 1,
-        "title": "Let It Go",
-        "username": "올레",
+        "title": "나비보벳따우 KK하우스",
+        "username": "4호선톤",
         "music_image": "../src/assets/images/phone1.png",
-        "music_file": "../src/assets/music/LetItGo.mp3",
-        "time": "3: 44"
+        "music_file": "../src/assets/music/y2mate.com - 모여봐요 동물의 숲  나비보벳따우 KK하우스.mp3",
     },
         {
         "id": 2,
-        "title": "두둥탁",
-        "username": "1팀",
+        "title": "To Die For",
+        "username": "Sam Smith",
         "music_image": "../src/assets/images/phone2.png",
-        "music_file": "../src/assets/music/두둥탁.mp3",
-        "time": "0: 32"
+        "music_file": "../src/assets/music/y2mate.com - Sam Smith  To Die For Lyrics.mp3",
     },
     {
         "id": 3,
-        "title": "불 타오르는 효과음",
-        "username": "최고얌",
+        "title": "Silver Bells",
+        "username": "멋쟁이사자처럼",
         "music_image": "../src/assets/images/phone3.png",
-        "music_file": "../src/assets/music/불 타오르는 효과음.mp3",
-        "time": "2: 54"
+        "music_file": "../src/assets/music/y2mate.com - Silver Bells.mp3",
     }
 ]
 
