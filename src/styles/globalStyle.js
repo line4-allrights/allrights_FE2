@@ -53,6 +53,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: #16162A;
     background-size: 100%;
     background-repeat: repeat;
+    overflow-x: hidden;
   }
   menu, ol, ul {
     list-style: none;

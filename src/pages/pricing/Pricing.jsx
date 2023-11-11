@@ -3,6 +3,7 @@ import styled from "styled-components";
 import colors from "../../styles/colors";
 import phone1 from "../../assets/images/phone1.png";
 import phone2 from "../../assets/images/phone2.png";
+import PricingButton from "../../components/button/button-main";
 
 const PricingContainer = styled.div`
   width: 100%;
@@ -52,16 +53,69 @@ const Pricing = () => {
         </PricingPContainer>
       </PricingBanner>
 
-      <div style={{height: "100%", display: "flex", justifyContent:"center", marginTop: "10vw", gap: "2.5vw"}}>
+      <div style={{height: "100%", display: "flex", justifyContent:"center", alignItems: "center", marginTop: "10vw", marginBottom: "10vw", gap: "2.5vw"}}>
         <Phone1>
-          <img src={phone1} alt="phone1" style={{width: "100%", height: "100%"}}/>
+          <img src={phone1} alt="phone1" style={{width: "100%", height: "100%", position: "relative"}}/>
         </Phone1>
+        <PricingPContainer style={{position: "absolute", marginLeft: "-35vw"}}>
+          <PricingP>Single</PricingP>
+          <PricingPContainer style={{display: "flex", alignItems: "flex-end", marginTop: "1.8vw", gap: "0.5vw"}}>
+            <PricingP style={{fontWeight: 600, fontSize: "1.5vw"}}>5천원</PricingP>
+            <PricingP style={{fontWeight: 400, fontSize: "1vw"}}>/50개</PricingP>
+          </PricingPContainer>
+          <PricingP style={{fontWeight: 400, fontSize: "0.8vw", lineHeight: "1.4vw", marginTop: "1.8vw"}}>
+            하나의 음원만<br/>
+            다운로드하고 싶다면<br/>
+            싱글 요금제를 사용해 보세요<br/>
+            50개의 효과음 및 배경음악을<br/>
+            다운로드할 수 있습니다
+          </PricingP>
+          <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+            <PricingButton buttonText="구독하기" style={{marginTop: "9.25vw", marginLeft: "1.5vw"}}/>
+          </div>
+        </PricingPContainer>
+
+
         <Phone1 style={{ borderImageSource: "linear-gradient(180deg, #3460B3 0%, #3A3A72 100%)" }}>
-          <img src={phone2} alt="phone1" style={{width: "100%", height: "100%"}}/>
+          <img src={phone2} alt="phone2" style={{width: "100%", height: "100%"}}/>
         </Phone1>
+        <PricingPContainer style={{position: "absolute", marginLeft: "-2vw"}}>
+          <PricingP>Standard</PricingP>
+          <PricingPContainer style={{display: "flex", alignItems: "flex-end", marginTop: "1.8vw",  gap: "0.5vw"}}>
+            <PricingP style={{fontWeight: 600, fontSize: "1.5vw"}}>1만원</PricingP>
+            <PricingP style={{fontWeight: 400, fontSize: "1vw"}}>/1달</PricingP>
+          </PricingPContainer>
+          <PricingP style={{fontWeight: 400, fontSize: "0.8vw", lineHeight: "1.4vw", marginTop: "1.8vw"}}>
+            효과음 또는 배경음악 중<br/>
+            하나를 선택하여<br/>
+            다운로드 할 수 있습니다<br/>
+            퀄리티 높은 자료를 자유롭게<br/>
+            이용해 보세요
+          </PricingP>
+          <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+            <PricingButton buttonText="구독하기" style={{marginTop: "9.25vw",  marginLeft: "1.5vw"}}/>
+          </div>
+        </PricingPContainer>
+
         <Phone1>
           <img src={phone1} alt="phone1" style={{width: "100%", height: "100%"}}/>
         </Phone1>
+        <PricingPContainer style={{position: "absolute", marginLeft: "32vw"}}>
+          <PricingP>Premium</PricingP>
+          <PricingPContainer style={{display: "flex", alignItems: "flex-end", marginTop: "1.8vw",  gap: "0.5vw"}}>
+            <PricingP style={{fontWeight: 600, fontSize: "1.5vw"}}>2만원</PricingP>
+            <PricingP style={{fontWeight: 400, fontSize: "1vw"}}>/1달</PricingP>
+          </PricingPContainer>
+          <PricingP style={{fontWeight: 400, fontSize: "0.8vw", lineHeight: "1.4vw", marginTop: "1.8vw"}}>
+            모든 음원을 이용할 수 있는<br/>
+            프리미엄 요금제입니다<br/>
+            당신의 창의력을 마음껏<br/>
+            펼쳐 보세요<br/><br/>
+          </PricingP>
+          <div style={{width: "100%", display: "flex", justifyContent: "center"}}>
+            <PricingButton buttonText="구독하기" style={{marginTop: "9.25vw",  marginLeft: "1.5vw"}}/>
+          </div>
+        </PricingPContainer>
       </div>
     </PricingContainer>
   )
