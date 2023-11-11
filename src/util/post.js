@@ -8,10 +8,10 @@ const PostData = [
     },
         {
         "id": 2,
-        "title": "두둥탁",
+        "title": "All I Want for Christmas Is You",
         "username": "최강 1팀",
         "music_image": "../src/assets/images/phone2.png",
-        "music_file": "../src/assets/music/두둥탁.mp3",
+        "music_file": "../src/assets/music/y2mate.com - All I Want for Christmas Is You.mp3",
     },
     {
         "id": 3,
@@ -19,23 +19,20 @@ const PostData = [
         "username": "최강 1팀",
         "music_image": "../src/assets/images/phone3.png",
         "music_file": "../src/assets/music/불 타오르는 효과음.mp3",
-        "time": "2: 54"
     },
     {
         "id": 4,
-        "title": "에이쁠 길만 걷자",
+        "title": "Cupid",
         "username": "최강 1팀",
         "music_image": "../src/assets/images/phone1.png",
-        "music_file": "../src/assets/music/LetItGo.mp3",
-        "time": "1: 47"
+        "music_file": "../src/assets/music/y2mate.com - Fifty Fifty  Cupid LyricsLetra.mp3",
     },
     {
         "id": 5,
-        "title": "이것이 힙합이다",
+        "title": "첫 눈 The First Show",
         "username": "최강 1팀",
         "music_image": "../src/assets/images/phone2.png",
-        "music_file": "../src/assets/music/LetItGo.mp3",
-        "time": "0: 24"
+        "music_file": "../src/assets/music/y2mate.com - 첫 눈 The First Snow.mp3",
     }
 ]
 
