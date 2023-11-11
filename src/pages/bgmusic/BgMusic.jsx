@@ -1,14 +1,52 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as S from "./style";
+import styled from "styled-components";
 import Musiclist from "../../components/musiclist/Musiclist";
 import ButtonMain from "../../components/button/button-main";
 import { Link } from "react-router-dom";
-import colors from "../../styles/colors";
+import color from "../../styles/colors";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import PaginationIcon from "../../components/pagination/Pagination";
 import ItemPhone from "../../components/listItem/item-phone";
 import BgMusicImg from "../../assets/images/BgMusicImg.png";
+import Youtube from "../../components/youtube/Youtube";
+import { API } from "../../api/axios";
+
+const HomeExplain = styled.div`
+  align-items: center;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 1.2vw;
+`;
+
+const HomeP = styled.p`
+  color: #e4e8ef;
+  font-size: 1.75vw;
+  font-weight: 700;
+  line-height: 120%;
+  margin-bottom: 1.2vw;
+`;
+
+const HomeExP = styled.p`
+  color: ${color.HomeExp};
+  font-size: 1vw;
+  font-weight: 400;
+  line-height: 150%;
+  margin-top: 0vw;
+`;
+const HomeExplainContainer = styled.div`
+  margin-bottom: 2.6vw;
+`;
+
+const PhoneBanner = styled.div`
+  background-color: ${color.mainDarkBlue};
+  width: 100%;
+  height: 45vw;
+  margin-top: 3vw;
+`;
 
 const BgMusic = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -16,6 +54,22 @@ const BgMusic = () => {
   const [activeMenu, setActiveMenu] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [sort, setSort] = useState("");
+  const [sortOptions, setSortOptions] = useState([]);
+
+  const fetchSortOptions = async () => {
+    try {
+      const response = await API.get(
+        "http://127.0.0.1:8000/music/?sort_by=downloads"
+      );
+      setSortOptions(response.data);
+    } catch (error) {
+      console.error("정렬 기준을 불러오는 중 에러 발생:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSortOptions();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -32,13 +86,11 @@ const BgMusic = () => {
   const openSideBar = (menuName) => {
     setIsSideBarOpen(true);
     setActiveMenu(menuName);
-    console.log("사이드바가 열렸습니다.");
   };
 
   const closeSideBar = () => {
     setIsSideBarOpen(false);
     setActiveMenu("");
-    console.log("사이드바가 닫혔습니다.");
   };
 
   const handleOutsideClick = (e) => {
@@ -256,24 +308,32 @@ const BgMusic = () => {
               <option value="" disabled hidden>
                 정렬
               </option>
-              {SortList.map((item) => (
-                <option value={item.value} key={item.value}>
-                  {item.name}
+              {SortList.map((option) => (
+                <option value={option.value} key={option.value}>
+                  {option.name}
                 </option>
               ))}
             </S.StyledSelect>
           </S.BgSubTitle>
 
           <Musiclist />
-          <Musiclist />
-          <Musiclist />
-          <Musiclist />
-          <Musiclist />
 
           <PaginationIcon />
 
           <S.PhoneMargin>
-            <ItemPhone />
+            <PhoneBanner>
+              <HomeExplain>
+                <HomeExplainContainer>
+                  <HomeP>이렇게 사용해보세요</HomeP>
+                  <HomeExP>
+                    해당 음원을 사용한 콘텐츠들
+                    <br />
+                    더욱 다양한 아이디어를 공유해 보세요.
+                  </HomeExP>
+                </HomeExplainContainer>
+                <Youtube />
+              </HomeExplain>
+            </PhoneBanner>
           </S.PhoneMargin>
         </S.BgMusicBox>
       </S.BgBox>
