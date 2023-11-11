@@ -20,7 +20,7 @@ const AlbumCover = styled.div`
 `;
 
 const Musiceffect = () => {
-  const [likedTracks, setLikedTracks] = useState([]);
+  const [likedTracks, setLikedTracks] = useState({});
   const [musicData, setMusicData] = useState([]);
 
   useEffect(() => {
@@ -55,39 +55,11 @@ const Musiceffect = () => {
     fetchMusicData();
   }, []);
 
-  const toggleLike = async (musicId) => {
-    try {
-      const response = await API.post(
-        `http://127.0.0.1:8000/music/like/${musicId}/`,
-        null,
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk5NjMwODM1LCJpYXQiOjE2OTk2MzA1MzUsImp0aSI6IjA2NThkNjBjNDE5YjQ3NzM4NGMzNjJlN2Y5ODk2ZjE4IiwidXNlcl9pZCI6NX0.X_IeTKXA61woFwp_4BBh8lnxCxfi2Ta7CvVHARu0qRw",
-          },
-        }
-      );
-
-      console.log("좋아요 토글 성공:", response.data);
-      return response.data;
-    } catch (error) {
-      console.error("좋아요 토글 실패:", error);
-      throw error;
-    }
-  };
-
-  const handleHeartClick = async (id) => {
-    try {
-      await toggleLike(id);
-      // 좋아요 상태를 토글하면서 해당 음악의 좋아요 상태를 업데이트
-      setLikedTracks((prevLikedTracks) =>
-        prevLikedTracks.includes(id)
-          ? prevLikedTracks.filter((trackId) => trackId !== id)
-          : [...prevLikedTracks, id]
-      );
-    } catch (error) {
-      console.error("좋아요 실패", error);
-    }
+  const handleHeartClick = (id) => {
+    setLikedTracks((prevLikedTracks) => ({
+      ...prevLikedTracks,
+      [id]: !prevLikedTracks[id],
+    }));
   };
 
   const handleButtonClick = async (id, title) => {
@@ -125,9 +97,8 @@ const Musiceffect = () => {
     <>
       {musicData.map((music) => {
         const { id, username, title, music_image } = music;
-
-        const getHeartColor = () =>
-          likedTracks.includes(id) ? "#4A88FF" : "#727782";
+        const isLiked = likedTracks[id] || false;
+        const getHeartColor = () => (isLiked ? "#4A88FF" : "#727782");
 
         return (
           <S.MusicBox key={id}>
