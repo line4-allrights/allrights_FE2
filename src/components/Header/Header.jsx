@@ -103,9 +103,10 @@ const Header = () => {
         <div style={{ display: "flex", gap: "1vw", alignItems: "center" }}>
           {isLoggedIn ? (
             <>
-              <span style={{ color: colors.navtext, fontSize: "1vw" }}>
+              <span style={{ color: colors.navtext, fontSize: "1vw", cursor: "pointer" }}>
                 {userNickname}
               </span>
+              <span style={{ color: colors.navtext, fontSize: "1vw" }}>|</span>
               <StyledButton onClick={handleLogout}>로그아웃</StyledButton>
             </>
           ) : (
