@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import styled from "styled-components";
 import AllRights from "../../assets/images/AllRights.png";
 import colors from "../../styles/colors";
@@ -103,8 +103,14 @@ const Header = () => {
         <div style={{ display: "flex", gap: "1vw", alignItems: "center" }}>
           {isLoggedIn ? (
             <>
-              <span style={{ color: colors.navtext, fontSize: "1vw", cursor: "pointer" }}>
-                {userNickname}
+              <span
+                style={{
+                  color: colors.navtext,
+                  fontSize: "1vw",
+                  cursor: "pointer",
+                }}
+              >
+                <Link to="/mypage">{userNickname}</Link>
               </span>
               <span style={{ color: colors.navtext, fontSize: "1vw" }}>|</span>
               <StyledButton onClick={handleLogout}>로그아웃</StyledButton>
