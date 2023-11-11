@@ -4,11 +4,11 @@ import ButtonMain from "../../components/button/button-main";
 import Check from "../../assets/images/Check.png";
 import ItemPhone from "../../components/listItem/item-phone";
 import InputSearch from "../../components/input/input-search";
-import ListEffect from "../../components/list/list-effect";
 import PostsData from "../../util/posts";
 import { useState } from "react";
-import { useEffect } from "react";
 import PaginationIcon from "../../components/pagination/Pagination";
+import * as S from "../bgmusic/style";
+import MusicEffect from "../../components/musiclist/Musiceffect"
 
 const EffectContainer = styled.div`
   width:60%;
@@ -87,6 +87,13 @@ const Soundeffect = () => {
     setCurrentPage(page);
   };
 
+  const [sort, setSort] = useState("");
+
+  const SortList = [
+    { value: "upload_date", name: "최신순" },
+    { value: "downloads", name: "다운로드순" },
+  ];
+
   return (
     <Home>
       <HomeBanner>
@@ -122,14 +129,28 @@ const Soundeffect = () => {
       <InputSearch />
       <ItemPhone />
 
-      <EffectContainer>
-      <ListEffect data={currentPosts} />
-        <PaginationIcon 
-          page={currentPage}
-          count={Math.ceil(postsData.length / itemsPerPage)}
-          onChange={handlePageChange}
-        />
-      </EffectContainer>
+      <S.BgMusicBox style={{width:"70%"}}>
+          <S.BgSubTitle>
+            <S.BgTitle>효과음</S.BgTitle>
+            <S.StyledSelect
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+            >
+              <option value="" disabled hidden>
+                정렬
+              </option>
+              {SortList.map((option) => (
+                <option value={option.value} key={option.value}>
+                  {option.name}
+                </option>
+              ))}
+            </S.StyledSelect>
+          </S.BgSubTitle>
+
+          <MusicEffect />
+
+          <PaginationIcon />
+          </S.BgMusicBox>
     </Home>
   );
 };
