@@ -6,8 +6,9 @@ import ListPost from "../../components/list/list-post";
 import ListSave from "../../components/list/list-save";
 import ListMyPage from "../../components/list/list-mypage";
 import { API } from "../../api/axios";
+import PostData from "../../util/post";
+import SaveData from "../../util/save";
 import MyPageData from "../../util/mypage";
-import axios from "axios";
 
 const MyPageContainer = styled.div`
     width: 100%;
@@ -53,53 +54,21 @@ const Bar = styled.div`
 
 const MyPage = () => {
     const [showPost, setShowPost] = useState(true);
-    const [postData, setPostData] = useState([]);
-    const [saveData, setSaveData] = useState([]);
-    const [userInfo, setUserInfo] = useState([]);
-    const [error, setError] = useState(null);
+    const [postData, setPostData] = useState(PostData);
+    const [saveData, setSaveData] = useState(SaveData);
+    const [userInfo, setUserInfo] = useState(MyPageData);
 
-    const useAxios = () => {
-        const { authTokens, setUser, setAuthTokens } = useContext(AuthContext);
-        const axiosInstance = axios.create({
-            baseURL: "http://127.0.0.1:8000/account/mypage/user_id",
-            headers: { Authorization: `Bearer ${authTokens?.access}`}
-        });
+    useEffect(() => {
+        setPostData(PostData);
+    }, []);
 
-        console.log(authTokens);
+    useEffect(() => {
+        setSaveData(SaveData);
+    }, []);
 
-        axiosInstance.interceptors.request.use(async req => {
-            const user = jwt_decode(authTokens.access);
-            const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1;
-
-            if (!isExpired) return req;
-
-            setAuthTokens(response.data);
-            setUser(jwt_decode(response.data.access));
-
-            req.headers.Authorization = `Bearer ${response.data.access}`;
-            return req;
-        });
-        return axiosInstance;
-    };
-
-// ... (나머지 코드)
-
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             if (userInfo) { 
-    //                 const response = await API.get(`http://127.0.0.1:8000/account/mypage/${id}/`);
-    //                 setUserInfo(response.data.user_info);
-    //                 setPostData(response.data.post);
-    //                 setSaveData(response.data.save);
-    //             }
-    //         } catch (error) {
-    //             console.error("error", error);
-    //         }
-    //     };
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        setUserInfo(MyPageData);
+    }, []);
 
     return (
         <MyPageContainer>

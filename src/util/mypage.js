@@ -1,10 +1,10 @@
 const MyPageData = [
     {
         user_info: {
-            userid: "happine2s",
-            username: "박소윤",
-            img: "../src/assets/images/phone1.png",
-            bio: "숙명여대 IT공학과 22학번",
+            userid: "line4",
+            username: "최강 1팀",
+            img: "../src/assets/images/profilephoto.png",
+            bio: "1팀 개발하느라 수고 많으셨습니다 :)",
         },
     },
 ];
