@@ -84,6 +84,196 @@
 		3. npm ren dev 명령어<br/>
 	</h6>
 	</blockquote>
+	<h4>👉🏻 폴더 구조</h4>
+
+```
+FE-allrights
+	├─ .eslintrc.cjs
+	├─ .git
+	│  ├─ config
+	│  ├─ description
+	│  ├─ HEAD
+	│  ├─ hooks
+	│  │  ├─ applypatch-msg.sample
+	│  │  ├─ commit-msg.sample
+	│  │  ├─ fsmonitor-watchman.sample
+	│  │  ├─ post-update.sample
+	│  │  ├─ pre-applypatch.sample
+	│  │  ├─ pre-commit.sample
+	│  │  ├─ pre-merge-commit.sample
+	│  │  ├─ pre-push.sample
+	│  │  ├─ pre-rebase.sample
+	│  │  ├─ pre-receive.sample
+	│  │  ├─ prepare-commit-msg.sample
+	│  │  ├─ push-to-checkout.sample
+	│  │  └─ update.sample
+	│  ├─ index
+	│  ├─ info
+	│  │  └─ exclude
+	│  ├─ objects
+	│  │  ├─ info
+	│  │  └─ pack
+	│  │     ├─ pack-82b90e427b8b278a95925cc12d416105ea2d5509.idx
+	│  │     └─ pack-82b90e427b8b278a95925cc12d416105ea2d5509.pack
+	│  ├─ packed-refs
+	│  └─ refs
+	│     ├─ heads
+	│     │  └─ main
+	│     ├─ remotes
+	│     │  └─ origin
+	│     │     └─ HEAD
+	│     └─ tags
+	├─ .gitignore
+	├─ dist
+	│  ├─ assets
+	│  │  ├─ AllRights-31daddfe.png
+	│  │  ├─ BgMusicImg-285cce50.png
+	│  │  ├─ clip_home-ccae73d4.png
+	│  │  ├─ download-e4932f3c.png
+	│  │  ├─ index-1d7e0511.js
+	│  │  ├─ phone1-149cfce4.png
+	│  │  ├─ phone2-46004c63.png
+	│  │  ├─ phone3-a157e294.png
+	│  │  ├─ profilePhoto-14d723e7.png
+	│  │  ├─ ring_home1-a2ab7df5.png
+	│  │  ├─ soundWave-95dcde9f.png
+	│  │  ├─ soundWave1-28721a32.png
+	│  │  ├─ soundWave2-3ab6ebf2.png
+	│  │  ├─ soundWave3-06f23912.png
+	│  │  └─ soundWave_home-27d049bd.png
+	│  ├─ index.html
+	│  ├─ vite.svg
+	│  └─ _redirects
+	├─ index.html
+	├─ netlify.toml
+	├─ package-lock.json
+	├─ package.json
+	├─ public
+	│  ├─ AllRights_not.png
+	│  ├─ headlogo.png
+	│  ├─ icon.png
+	│  └─ vite.svg
+	├─ README.md
+	├─ src
+	│  ├─ api
+	│  │  └─ axios.js
+	│  ├─ App.jsx
+	│  ├─ assets
+	│  │  ├─ font
+	│  │  │  ├─ Pretendard-Black.ttf
+	│  │  │  ├─ Pretendard-Bold.ttf
+	│  │  │  ├─ Pretendard-ExtraBold.ttf
+	│  │  │  ├─ Pretendard-ExtraLight.ttf
+	│  │  │  ├─ Pretendard-Light.ttf
+	│  │  │  ├─ Pretendard-Medium.ttf
+	│  │  │  ├─ Pretendard-Regular.ttf
+	│  │  │  ├─ Pretendard-SemiBold.ttf
+	│  │  │  └─ Pretendard-Thin.ttf
+	│  │  ├─ images
+	│  │  │  ├─ AllRights.png
+	│  │  │  ├─ Allrights_home.png
+	│  │  │  ├─ BgMusicImg.png
+	│  │  │  ├─ Check.png
+	│  │  │  ├─ clip_home.png
+	│  │  │  ├─ download.png
+	│  │  │  ├─ footer_github.png
+	│  │  │  ├─ footer_insta.png
+	│  │  │  ├─ phone1.png
+	│  │  │  ├─ phone2.png
+	│  │  │  ├─ phone3.png
+	│  │  │  ├─ profilePhoto.png
+	│  │  │  ├─ ring_home1.png
+	│  │  │  ├─ ring_home2.png
+	│  │  │  ├─ soundWave.png
+	│  │  │  ├─ soundWave1.png
+	│  │  │  ├─ soundWave2.png
+	│  │  │  ├─ soundWave3.png
+	│  │  │  ├─ soundWave_home.png
+	│  │  │  ├─ VectorLeft.png
+	│  │  │  └─ VectorRight.png
+	│  │  ├─ music
+	│  │  │  ├─ LetItGo.mp3
+	│  │  │  ├─ y2mate.com - All I Want for Christmas Is You.mp3
+	│  │  │  ├─ y2mate.com - Fifty Fifty  Cupid LyricsLetra.mp3
+	│  │  │  ├─ y2mate.com - Sam Smith  To Die For Lyrics.mp3
+	│  │  │  ├─ y2mate.com - Santa Claus Is Coming To Town.mp3
+	│  │  │  ├─ y2mate.com - Silver Bells.mp3
+	│  │  │  ├─ y2mate.com - Wham  Last Christmas Lyrics.mp3
+	│  │  │  ├─ y2mate.com - 모동숲 KK아이돌 한글 가사 뮤직비디오노래방 버전.mp3
+	│  │  │  ├─ y2mate.com - 모여봐요 동물의 숲  나비보벳따우 KK하우스.mp3
+	│  │  │  ├─ y2mate.com - 첫 눈 The First Snow.mp3
+	│  │  │  └─ 불 타오르는 효과음.mp3
+	│  │  └─ react.svg
+	│  ├─ components
+	│  │  ├─ button
+	│  │  │  └─ button-main.jsx
+	│  │  ├─ footer
+	│  │  │  ├─ Footer.jsx
+	│  │  │  └─ style.jsx
+	│  │  ├─ Header
+	│  │  │  └─ Header.jsx
+	│  │  ├─ input
+	│  │  │  ├─ input-search.jsx
+	│  │  │  └─ input-sign.jsx
+	│  │  ├─ list
+	│  │  │  ├─ list-effect.jsx
+	│  │  │  ├─ list-mypage.jsx
+	│  │  │  ├─ list-post.jsx
+	│  │  │  └─ list-save.jsx
+	│  │  ├─ listItem
+	│  │  │  ├─ item-effect.jsx
+	│  │  │  ├─ item-mypage.jsx
+	│  │  │  ├─ item-phone.jsx
+	│  │  │  ├─ item-post.jsx
+	│  │  │  └─ item-save.jsx
+	│  │  ├─ musiclist
+	│  │  │  ├─ Musiceffect.jsx
+	│  │  │  ├─ Musiclist.jsx
+	│  │  │  └─ style.jsx
+	│  │  ├─ pagination
+	│  │  │  ├─ Pagination.jsx
+	│  │  │  └─ style.jsx
+	│  │  ├─ waveform
+	│  │  │  ├─ style.jsx
+	│  │  │  └─ Wavefrom.jsx
+	│  │  └─ youtube
+	│  │     └─ Youtube.jsx
+	│  ├─ main.jsx
+	│  ├─ pages
+	│  │  ├─ bgmusic
+	│  │  │  ├─ BgMusic.jsx
+	│  │  │  └─ style.jsx
+	│  │  ├─ edit
+	│  │  │  └─ Edit.jsx
+	│  │  ├─ mainpage
+	│  │  │  └─ Mainpage.jsx
+	│  │  ├─ mypage
+	│  │  │  └─ Mypage.jsx
+	│  │  ├─ notfound
+	│  │  │  └─ Notfound.jsx
+	│  │  ├─ pricing
+	│  │  │  └─ Pricing.jsx
+	│  │  ├─ signIn
+	│  │  │  └─ Signin.jsx
+	│  │  ├─ signUp
+	│  │  │  └─ Signup.jsx
+	│  │  ├─ soundeffect
+	│  │  │  └─ Soundeffect.jsx
+	│  │  └─ uploadpage
+	│  │     ├─ style.jsx
+	│  │     └─ Upload.jsx
+	│  ├─ router.jsx
+	│  ├─ styles
+	│  │  ├─ colors.js
+	│  │  └─ globalStyle.js
+	│  └─ util
+	│     ├─ mypage.js
+	│     ├─ post.js
+	│     ├─ posts.js
+	│     └─ save.js
+	├─ vite.config.js
+	└─ yarn.lock	
+```
 </div>
 <br/>
 
