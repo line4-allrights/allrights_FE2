@@ -26,10 +26,11 @@
 </div>
 <br/>
 
-<div align="left"><h2>📄 Wire Frame</h2>
+<div align="left"><h2>📝 Wire Frame</h2>
 	<h5>
 	🔗 <a href="https://app.moqups.com/sIqNISO51d5FkcCf4Bw3CQt4YEWEzVaq/view/page/a8b49fd9f">moqups: 와이퍼프레임 구성 링크</a><br/><br/>
-	🎨 <a href="https://www.figma.com/file/TseqrCCYO3OlANhI4F1uty/2023-4%ED%98%B8%EC%84%A0%ED%86%A4?type=design&node-		id=39%3A216&mode=design&t=7nFbtusSyJzatAXQ-1">figma: 디자인 링크</a>
+	🎨 <a href="https://www.figma.com/file/TseqrCCYO3OlANhI4F1uty/2023-4%ED%98%B8%EC%84%A0%ED%86%A4?type=design&node-		id=39%3A216&mode=design&t=7nFbtusSyJzatAXQ-1">figma: 디자인 링크</a><br/><br/>
+	📘 <a href="https://www.notion.so/TEAM-1-All-Rights-7433e4cc486f475d94ffed221b2b312b?pvs=4">notion: 노션 링크</a><br/><br/>
 	</h5>
 	<h4>👉🏻 페이지 구성</h4>
 	<blockquote>
